@@ -298,11 +298,13 @@ app.get('/devices/:id', (req, res) => {
 });
 
 app.post('/devices', (req, res) => {
-  const newDevice = {
-    id: `device_${Date.now()}`,
-    ...req.body
-  };
+  const newDevice = req.body;
+  // id unique mi kontrolü
+  if (devices.some(d => d.id === newDevice.id)) {
+    return res.status(409).json({ error: 'Bu ID ile cihaz zaten var.' });
+  }
   devices.push(newDevice);
+  broadcastDeviceUpdate(newDevice.id);
   res.status(201).json(newDevice);
 });
 
