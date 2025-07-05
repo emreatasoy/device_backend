@@ -21,17 +21,17 @@ function writeDevices(devices) {
 app.use(cors());
 app.use(express.json());
 
-// WebSocket bağlantılarını sakla
+// WebSocket bağlantılarını saklas
 wss.on('connection', function connection(ws) {
   console.log('Bir istemci WebSocket ile bağlandı');
 });
 
 // Bir cihaz güncellendiğinde sadece o cihazın id'sini yayınla
-function broadcastDeviceUpdate(deviceId) {
-   console.log('WebSocket event gönderiliyor:', deviceId);
+function broadcastDeviceUpdate(deviceSerialNumber) {
+  console.log('WebSocket event gönderiliyor:', deviceSerialNumber);
   wss.clients.forEach(function each(client) {
     if (client.readyState === WebSocket.OPEN) {
-      client.send(JSON.stringify({ type: 'device_update', deviceId }));
+      client.send(JSON.stringify({ type: 'device_update', deviceSerialNumber }));
     }
   });
 }
@@ -46,9 +46,9 @@ app.get('/devices', (req, res) => {
   res.json(devices);
 });
 
-app.get('/devices/:id', (req, res) => {
+app.get('/devices/:serialNumber', (req, res) => {
   const devices = readDevices();
-  const device = devices.find(d => d.id === req.params.id);
+  const device = devices.find(d => d.serialNumber === req.params.serialNumber);
   if (device) {
     res.json(device);
   } else {
@@ -64,13 +64,13 @@ app.post('/devices', (req, res) => {
   }
   devices.push(newDevice);
   writeDevices(devices);
-  broadcastDeviceUpdate(newDevice.id);
+  broadcastDeviceUpdate(newDevice.serialNumber);
   res.status(201).json(newDevice);
 });
 
-app.put('/devices/:id', (req, res) => {
+app.put('/devices/:serialNumber', (req, res) => {
   const devices = readDevices();
-  const index = devices.findIndex(d => d.id === req.params.id);
+  const index = devices.findIndex(d => d.serialNumber === req.params.serialNumber);
   if (index !== -1) {
     devices[index] = { ...devices[index], ...req.body };
     writeDevices(devices);
@@ -80,14 +80,14 @@ app.put('/devices/:id', (req, res) => {
   }
 });
 
-app.delete('/devices/:id', (req, res) => {
+app.delete('/devices/:serialNumber', (req, res) => {
   const devices = readDevices();
-  const index = devices.findIndex(d => d.id === req.params.id);
+  const index = devices.findIndex(d => d.serialNumber === req.params.serialNumber);
   if (index !== -1) {
     const deletedDevice = devices[index];
     devices.splice(index, 1);
     writeDevices(devices);
-    broadcastDeviceUpdate(deletedDevice.id);
+    broadcastDeviceUpdate(deletedDevice.serialNumber);
     res.status(204).send();
   } else {
     res.status(404).json({ error: 'Device not found' });
@@ -95,9 +95,9 @@ app.delete('/devices/:id', (req, res) => {
 });
 
 // Fault management endpoints
-app.post('/devices/:id/faults', (req, res) => {
+app.post('/devices/:serialNumber/faults', (req, res) => {
   const devices = readDevices();
-  const device = devices.find(d => d.id === req.params.id);
+  const device = devices.find(d => d.serialNumber === req.params.serialNumber);
   if (device) {
     const newFault = {
       id: `fault_${Date.now()}`,
@@ -109,15 +109,15 @@ app.post('/devices/:id/faults', (req, res) => {
     device.hasFault = true;
     writeDevices(devices);
     res.status(201).json(newFault);
-    broadcastDeviceUpdate(device.id);
+    broadcastDeviceUpdate(device.serialNumber);
   } else {
     res.status(404).json({ error: 'Device not found' });
   }
 });
 
-app.put('/devices/:id/faults/:faultId', (req, res) => {
+app.put('/devices/:serialNumber/faults/:faultId', (req, res) => {
   const devices = readDevices();
-  const device = devices.find(d => d.id === req.params.id);
+  const device = devices.find(d => d.serialNumber === req.params.serialNumber);
   if (device) {
     const fault = device.faults.find(f => f.id === req.params.faultId);
     if (fault) {
@@ -125,7 +125,7 @@ app.put('/devices/:id/faults/:faultId', (req, res) => {
       device.hasFault = device.faults.some(f => !f.isResolved);
       writeDevices(devices);
       res.json(fault);
-      broadcastDeviceUpdate(device.id);
+      broadcastDeviceUpdate(device.serialNumber);
     } else {
       res.status(404).json({ error: 'Fault not found' });
     }
@@ -134,9 +134,9 @@ app.put('/devices/:id/faults/:faultId', (req, res) => {
   }
 });
 
-app.delete('/devices/:id/faults/:faultId', (req, res) => {
+app.delete('/devices/:serialNumber/faults/:faultId', (req, res) => {
   const devices = readDevices();
-  const device = devices.find(d => d.id === req.params.id);
+  const device = devices.find(d => d.serialNumber === req.params.serialNumber);
   if (device) {
     const faultIndex = device.faults.findIndex(f => f.id === req.params.faultId);
     if (faultIndex !== -1) {
@@ -144,7 +144,7 @@ app.delete('/devices/:id/faults/:faultId', (req, res) => {
       device.hasFault = device.faults.some(f => !f.isResolved);
       writeDevices(devices);
       res.status(204).send();
-      broadcastDeviceUpdate(device.id);
+      broadcastDeviceUpdate(device.serialNumber);
     } else {
       res.status(404).json({ error: 'Fault not found' });
     }
