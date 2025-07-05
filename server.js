@@ -332,6 +332,22 @@ app.put('/devices/:id/faults/:faultId', (req, res) => {
   }
 });
 
+app.delete('/devices/:id/faults/:faultId', (req, res) => {
+  const device = devices.find(d => d.id === req.params.id);
+  if (device) {
+    const faultIndex = device.faults.findIndex(f => f.id === req.params.faultId);
+    if (faultIndex !== -1) {
+      device.faults.splice(faultIndex, 1);
+      device.hasFault = device.faults.some(f => !f.isResolved);
+      res.status(204).send();
+    } else {
+      res.status(404).json({ error: 'Fault not found' });
+    }
+  } else {
+    res.status(404).json({ error: 'Device not found' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 }); 
