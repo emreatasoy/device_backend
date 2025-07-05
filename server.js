@@ -38,7 +38,8 @@ const devices = [
         timestamp: new Date(Date.now() - 1 * 60 * 60 * 1000).toISOString(),
         isResolved: false
       }
-    ]
+    ],
+    slipRingEndDate: '2024-06-01T00:00:00.000Z'
   },
   {
     id: 'radar_ankara_2',
@@ -48,7 +49,8 @@ const devices = [
     site: 'Ankara-Kolordu-1',
     position: { lat: 39.9208, lng: 32.8541 },
     hasFault: false,
-    faults: []
+    faults: [],
+    slipRingEndDate: '2025-12-01T00:00:00.000Z'
   },
   {
     id: 'radar_ankara_3',
@@ -58,7 +60,8 @@ const devices = [
     site: 'Ankara-Kolordu-1',
     position: { lat: 39.9454, lng: 32.8597 },
     hasFault: false,
-    faults: []
+    faults: [],
+    slipRingEndDate: '2024-06-01T00:00:00.000Z'
   },
   {
     id: 'radar_ankara_4',
@@ -68,7 +71,8 @@ const devices = [
     site: 'Ankara-Kolordu-1',
     position: { lat: 39.9208, lng: 32.8700 },
     hasFault: false,
-    faults: []
+    faults: [],
+    slipRingEndDate: '2025-12-01T00:00:00.000Z'
   },
   {
     id: 'radar_ankara_5',
@@ -78,7 +82,8 @@ const devices = [
     site: 'Ankara-Kolordu-1',
     position: { lat: 39.9454, lng: 32.8700 },
     hasFault: false,
-    faults: []
+    faults: [],
+    slipRingEndDate: '2024-06-01T00:00:00.000Z'
   },
   
   // Ankara Jammerlar
@@ -107,7 +112,8 @@ const devices = [
         timestamp: new Date(Date.now() - 30 * 60 * 1000).toISOString(),
         isResolved: false
       }
-    ]
+    ],
+    slipRingEndDate: '2024-06-01T00:00:00.000Z'
   },
   {
     id: 'jammer_ankara_2',
@@ -117,7 +123,8 @@ const devices = [
     site: 'Ankara-Kolordu-1',
     position: { lat: 39.9208, lng: 32.8441 },
     hasFault: false,
-    faults: []
+    faults: [],
+    slipRingEndDate: '2025-12-01T00:00:00.000Z'
   },
   {
     id: 'jammer_ankara_3',
@@ -127,7 +134,8 @@ const devices = [
     site: 'Ankara-Kolordu-1',
     position: { lat: 39.9454, lng: 32.8497 },
     hasFault: false,
-    faults: []
+    faults: [],
+    slipRingEndDate: '2024-06-01T00:00:00.000Z'
   },
   {
     id: 'jammer_ankara_4',
@@ -137,7 +145,8 @@ const devices = [
     site: 'Ankara-Kolordu-1',
     position: { lat: 39.9208, lng: 32.8600 },
     hasFault: false,
-    faults: []
+    faults: [],
+    slipRingEndDate: '2025-12-01T00:00:00.000Z'
   },
   {
     id: 'jammer_ankara_5',
@@ -147,7 +156,8 @@ const devices = [
     site: 'Ankara-Kolordu-1',
     position: { lat: 39.9454, lng: 32.8600 },
     hasFault: false,
-    faults: []
+    faults: [],
+    slipRingEndDate: '2026-06-01T00:00:00.000Z'
   },
   
   // Çorum Radarlar
@@ -159,7 +169,8 @@ const devices = [
     site: 'Çorum-Tabur-1',
     position: { lat: 40.5499, lng: 34.9537 },
     hasFault: false,
-    faults: []
+    faults: [],
+    slipRingEndDate: '2024-06-01T00:00:00.000Z'
   },
   {
     id: 'radar_corum_2',
@@ -169,7 +180,8 @@ const devices = [
     site: 'Çorum-Tabur-1',
     position: { lat: 40.5400, lng: 34.9437 },
     hasFault: false,
-    faults: []
+    faults: [],
+    slipRingEndDate: '2025-12-01T00:00:00.000Z'
   },
   {
     id: 'radar_corum_3',
@@ -179,7 +191,8 @@ const devices = [
     site: 'Çorum-Tabur-1',
     position: { lat: 40.5599, lng: 34.9637 },
     hasFault: false,
-    faults: []
+    faults: [],
+    slipRingEndDate: '2024-06-01T00:00:00.000Z'
   },
   {
     id: 'radar_corum_4',
@@ -189,7 +202,8 @@ const devices = [
     site: 'Çorum-Tabur-1',
     position: { lat: 40.5400, lng: 34.9537 },
     hasFault: false,
-    faults: []
+    faults: [],
+    slipRingEndDate: '2025-12-01T00:00:00.000Z'
   },
   {
     id: 'radar_corum_5',
@@ -199,7 +213,8 @@ const devices = [
     site: 'Çorum-Tabur-1',
     position: { lat: 40.5599, lng: 34.9437 },
     hasFault: false,
-    faults: []
+    faults: [],
+    slipRingEndDate: '2024-06-01T00:00:00.000Z'
   },
   
   // Çorum Jammerlar
@@ -211,7 +226,8 @@ const devices = [
     site: 'Çorum-Tabur-1',
     position: { lat: 40.5499, lng: 34.9437 },
     hasFault: false,
-    faults: []
+    faults: [],
+    slipRingEndDate: '2024-06-01T00:00:00.000Z'
   },
   {
     id: 'jammer_corum_2',
@@ -221,7 +237,8 @@ const devices = [
     site: 'Çorum-Tabur-1',
     position: { lat: 40.5400, lng: 34.9337 },
     hasFault: false,
-    faults: []
+    faults: [],
+    slipRingEndDate: '2025-12-01T00:00:00.000Z'
   },
   {
     id: 'jammer_corum_3',
@@ -231,7 +248,8 @@ const devices = [
     site: 'Çorum-Tabur-1',
     position: { lat: 40.5599, lng: 34.9537 },
     hasFault: false,
-    faults: []
+    faults: [],
+    slipRingEndDate: '2024-06-01T00:00:00.000Z'
   },
   {
     id: 'jammer_corum_4',
@@ -241,7 +259,8 @@ const devices = [
     site: 'Çorum-Tabur-1',
     position: { lat: 40.5400, lng: 34.9437 },
     hasFault: false,
-    faults: []
+    faults: [],
+    slipRingEndDate: '2025-12-01T00:00:00.000Z'
   },
   {
     id: 'jammer_corum_5',
@@ -251,7 +270,8 @@ const devices = [
     site: 'Çorum-Tabur-1',
     position: { lat: 40.5599, lng: 34.9337 },
     hasFault: false,
-    faults: []
+    faults: [],
+    slipRingEndDate: '2024-06-01T00:00:00.000Z'
   }
 ];
 
