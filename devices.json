@@ -1,6 +1,5 @@
 [
   {
-    "id": "radar_ankara_1",
     "type": "radar",
     "serialNumber": "RAD-001",
     "city": "Ankara",
@@ -28,7 +27,6 @@
     "slipRingEndDate": "2024-06-01T00:00:00.000Z"
   },
   {
-    "id": "radar_ankara_2",
     "type": "radar",
     "serialNumber": "RAD-002",
     "city": "Ankara",
@@ -39,7 +37,6 @@
     "slipRingEndDate": "2025-12-01T00:00:00.000Z"
   },
   {
-    "id": "radar_ankara_3",
     "type": "radar",
     "serialNumber": "RAD-003",
     "city": "Ankara",
@@ -50,7 +47,6 @@
     "slipRingEndDate": "2024-06-01T00:00:00.000Z"
   },
   {
-    "id": "radar_ankara_4",
     "type": "radar",
     "serialNumber": "RAD-004",
     "city": "Ankara",
@@ -61,7 +57,6 @@
     "slipRingEndDate": "2025-12-01T00:00:00.000Z"
   },
   {
-    "id": "radar_ankara_5",
     "type": "radar",
     "serialNumber": "RAD-005",
     "city": "Ankara",
@@ -72,7 +67,6 @@
     "slipRingEndDate": "2024-06-01T00:00:00.000Z"
   },
   {
-    "id": "jammer_ankara_1",
     "type": "jammer",
     "serialNumber": "JAM-001",
     "city": "Ankara",
@@ -99,7 +93,6 @@
     ]
   },
   {
-    "id": "jammer_ankara_2",
     "type": "jammer",
     "serialNumber": "JAM-002",
     "city": "Ankara",
@@ -109,7 +102,6 @@
     "faults": []
   },
   {
-    "id": "jammer_ankara_3",
     "type": "jammer",
     "serialNumber": "JAM-003",
     "city": "Ankara",
@@ -119,7 +111,6 @@
     "faults": []
   },
   {
-    "id": "jammer_ankara_4",
     "type": "jammer",
     "serialNumber": "JAM-004",
     "city": "Ankara",
@@ -129,7 +120,6 @@
     "faults": []
   },
   {
-    "id": "jammer_ankara_5",
     "type": "jammer",
     "serialNumber": "JAM-005",
     "city": "Ankara",
@@ -139,7 +129,6 @@
     "faults": []
   },
   {
-    "id": "radar_corum_1",
     "type": "radar",
     "serialNumber": "RAD-006",
     "city": "Çorum",
@@ -150,7 +139,6 @@
     "slipRingEndDate": "2024-06-01T00:00:00.000Z"
   },
   {
-    "id": "radar_corum_2",
     "type": "radar",
     "serialNumber": "RAD-007",
     "city": "Çorum",
@@ -161,7 +149,6 @@
     "slipRingEndDate": "2025-12-01T00:00:00.000Z"
   },
   {
-    "id": "radar_corum_3",
     "type": "radar",
     "serialNumber": "RAD-008",
     "city": "Çorum",
@@ -172,7 +159,6 @@
     "slipRingEndDate": "2024-06-01T00:00:00.000Z"
   },
   {
-    "id": "radar_corum_4",
     "type": "radar",
     "serialNumber": "RAD-009",
     "city": "Çorum",
@@ -183,7 +169,6 @@
     "slipRingEndDate": "2025-12-01T00:00:00.000Z"
   },
   {
-    "id": "radar_corum_5",
     "type": "radar",
     "serialNumber": "RAD-010",
     "city": "Çorum",
@@ -194,7 +179,6 @@
     "slipRingEndDate": "2024-06-01T00:00:00.000Z"
   },
   {
-    "id": "jammer_corum_1",
     "type": "jammer",
     "serialNumber": "JAM-006",
     "city": "Çorum",
@@ -204,7 +188,6 @@
     "faults": []
   },
   {
-    "id": "jammer_corum_2",
     "type": "jammer",
     "serialNumber": "JAM-007",
     "city": "Çorum",
@@ -214,7 +197,6 @@
     "faults": []
   },
   {
-    "id": "jammer_corum_3",
     "type": "jammer",
     "serialNumber": "JAM-008",
     "city": "Çorum",
@@ -224,7 +206,6 @@
     "faults": []
   },
   {
-    "id": "jammer_corum_4",
     "type": "jammer",
     "serialNumber": "JAM-009",
     "city": "Çorum",
@@ -234,7 +215,6 @@
     "faults": []
   },
   {
-    "id": "jammer_corum_5",
     "type": "jammer",
     "serialNumber": "JAM-010",
     "city": "Çorum",
