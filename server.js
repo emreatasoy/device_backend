@@ -272,6 +272,7 @@ wss.on('connection', function connection(ws) {
 
 // Bir cihaz güncellendiğinde sadece o cihazın id'sini yayınla
 function broadcastDeviceUpdate(deviceId) {
+   console.log('WebSocket event gönderiliyor:', deviceId);
   wss.clients.forEach(function each(client) {
     if (client.readyState === WebSocket.OPEN) {
       client.send(JSON.stringify({ type: 'device_update', deviceId }));
