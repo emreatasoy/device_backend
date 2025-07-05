@@ -301,7 +301,7 @@ app.post('/devices', (req, res) => {
   const newDevice = req.body;
   // serialNumber unique mi kontrolü
   if (devices.some(d => d.serialNumber === newDevice.serialNumber)) {
-    return res.status(409).json({ error: 'Bu serial number ile cihaz zaten var.' });
+    return res.status(409).json({ error: 'Bu seri numarası ile tanımlı cihaz zaten var.' });
   }
   devices.push(newDevice);
   broadcastDeviceUpdate(newDevice.id);
