@@ -1,6 +1,10 @@
 const express = require('express');
 const cors = require('cors');
+const http = require('http');
+const WebSocket = require('ws');
 const app = express();
+const server = http.createServer(app);
+const wss = new WebSocket.Server({ server });
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
@@ -251,6 +255,20 @@ const devices = [
   }
 ];
 
+// WebSocket bağlantılarını sakla
+wss.on('connection', function connection(ws) {
+  console.log('Bir istemci WebSocket ile bağlandı');
+});
+
+// Bir cihaz güncellendiğinde sadece o cihazın id'sini yayınla
+function broadcastDeviceUpdate(deviceId) {
+  wss.clients.forEach(function each(client) {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(JSON.stringify({ type: 'device_update', deviceId }));
+    }
+  });
+}
+
 // Routes
 app.get('/', (req, res) => {
   res.json({ message: 'Device Monitoring API is running!' });
@@ -311,6 +329,7 @@ app.post('/devices/:id/faults', (req, res) => {
     device.faults.push(newFault);
     device.hasFault = true;
     res.status(201).json(newFault);
+    broadcastDeviceUpdate(device.id);
   } else {
     res.status(404).json({ error: 'Device not found' });
   }
@@ -324,6 +343,7 @@ app.put('/devices/:id/faults/:faultId', (req, res) => {
       Object.assign(fault, req.body);
       device.hasFault = device.faults.some(f => !f.isResolved);
       res.json(fault);
+      broadcastDeviceUpdate(device.id);
     } else {
       res.status(404).json({ error: 'Fault not found' });
     }
@@ -340,6 +360,7 @@ app.delete('/devices/:id/faults/:faultId', (req, res) => {
       device.faults.splice(faultIndex, 1);
       device.hasFault = device.faults.some(f => !f.isResolved);
       res.status(204).send();
+      broadcastDeviceUpdate(device.id);
     } else {
       res.status(404).json({ error: 'Fault not found' });
     }
@@ -348,6 +369,6 @@ app.delete('/devices/:id/faults/:faultId', (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 }); 
