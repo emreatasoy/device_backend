@@ -11,9 +11,10 @@ const PORT = process.env.PORT || 3000;
 
 const devicesFile = path.join(__dirname, 'devices.json');
 
-function readDevices() {
+function readData() {
   return JSON.parse(fs.readFileSync(devicesFile, 'utf-8'));
 }
+
 function writeDevices(devices) {
   fs.writeFileSync(devicesFile, JSON.stringify(devices, null, 2));
 }
@@ -41,23 +42,27 @@ app.get('/', (req, res) => {
   res.json({ message: 'Device Monitoring API is running!' });
 });
 
+app.get('/forces', (req, res) => {
+  const data = readData();
+  res.json(data.forces);
+});
+
 app.get('/devices', (req, res) => {
-  const devices = readDevices();
-  res.json(devices);
+  const data = readData();
+  res.json(data.devices);
 });
 
 app.get('/devices/:serialNumber', (req, res) => {
-  const devices = readDevices();
-  const device = devices.find(d => d.serialNumber === req.params.serialNumber);
-  if (device) {
-    res.json(device);
+  const devices = readData().devices.find(d => d.serialNumber === req.params.serialNumber);
+  if (devices) {
+    res.json(devices);
   } else {
     res.status(404).json({ error: 'Device not found' });
   }
 });
 
 app.post('/devices', (req, res) => {
-  const devices = readDevices();
+  const devices = readData().devices;
   const newDevice = req.body;
   if (devices.some(d => d.serialNumber === newDevice.serialNumber)) {
     return res.status(409).json({ error: 'Bu seri numarası ile tanımlı cihaz zaten var.' });
@@ -69,7 +74,7 @@ app.post('/devices', (req, res) => {
 });
 
 app.put('/devices/:serialNumber', (req, res) => {
-  const devices = readDevices();
+  const devices = readData().devices;
   const index = devices.findIndex(d => d.serialNumber === req.params.serialNumber);
   if (index !== -1) {
     devices[index] = { ...devices[index], ...req.body };
@@ -81,7 +86,7 @@ app.put('/devices/:serialNumber', (req, res) => {
 });
 
 app.delete('/devices/:serialNumber', (req, res) => {
-  const devices = readDevices();
+  const devices = readData().devices;
   const index = devices.findIndex(d => d.serialNumber === req.params.serialNumber);
   if (index !== -1) {
     const deletedDevice = devices[index];
@@ -96,7 +101,7 @@ app.delete('/devices/:serialNumber', (req, res) => {
 
 // Fault management endpoints
 app.post('/devices/:serialNumber/faults', (req, res) => {
-  const devices = readDevices();
+  const devices = readData().devices;
   const device = devices.find(d => d.serialNumber === req.params.serialNumber);
   if (device) {
     const newFault = {
@@ -116,7 +121,7 @@ app.post('/devices/:serialNumber/faults', (req, res) => {
 });
 
 app.put('/devices/:serialNumber/faults/:faultId', (req, res) => {
-  const devices = readDevices();
+  const devices = readData().devices;
   const device = devices.find(d => d.serialNumber === req.params.serialNumber);
   if (device) {
     const fault = device.faults.find(f => f.id === req.params.faultId);
@@ -135,7 +140,7 @@ app.put('/devices/:serialNumber/faults/:faultId', (req, res) => {
 });
 
 app.delete('/devices/:serialNumber/faults/:faultId', (req, res) => {
-  const devices = readDevices();
+  const devices = readData().devices;
   const device = devices.find(d => d.serialNumber === req.params.serialNumber);
   if (device) {
     const faultIndex = device.faults.findIndex(f => f.id === req.params.faultId);
