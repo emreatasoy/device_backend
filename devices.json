@@ -1,47 +1,33 @@
 {
+  "cities": [
+    {
+      "id": "ankara",
+      "name": "Ankara",
+      "cityCenter": { "lat": 39.9334, "lng": 32.8597 }
+    },
+    {
+      "id": "corum",
+      "name": "Çorum",
+      "cityCenter": { "lat": 40.5499, "lng": 34.9537 }
+    }
+  ],
   "forces": [
     {
       "id": "hava_kuvvetleri",
       "name": "Hava Kuvvetleri",
-      "cities": [
-        {
-          "id": "ankara_hava",
-          "name": "Ankara",
-          "cityCenter": { "lat": 39.9334, "lng": 32.8597 },
-          "forceId": "hava_kuvvetleri"
-        },
-        {
-          "id": "corum_hava",
-          "name": "Çorum",
-          "cityCenter": { "lat": 40.5499, "lng": 34.9537 },
-          "forceId": "hava_kuvvetleri"
-        }
-      ]
+      "cityIds": ["ankara", "corum"]
     },
     {
       "id": "kara_kuvvetleri",
       "name": "Kara Kuvvetleri",
-      "cities": [
-        {
-          "id": "ankara_kara",
-          "name": "Ankara",
-          "cityCenter": { "lat": 39.9334, "lng": 32.8597 },
-          "forceId": "kara_kuvvetleri"
-        },
-        {
-          "id": "corum_kara",
-          "name": "Çorum",
-          "cityCenter": { "lat": 40.5499, "lng": 34.9537 },
-          "forceId": "kara_kuvvetleri"
-        }
-      ]
+      "cityIds": ["ankara", "corum"]
     }
   ],
   "devices": [
     {
       "type": "radar",
       "serialNumber": "RAD-001",
-      "city": "ankara_hava",
+      "city": "ankara",
       "force": "hava_kuvvetleri",
       "site": "Ankara-Kolordu-1",
       "position": { "lat": 39.9334, "lng": 32.8597 },
@@ -69,7 +55,7 @@
     {
       "type": "radar",
       "serialNumber": "RAD-002",
-      "city": "ankara_hava",
+      "city": "ankara",
       "force": "hava_kuvvetleri",
       "site": "Ankara-Kolordu-1",
       "position": { "lat": 39.9208, "lng": 32.8541 },
@@ -80,7 +66,7 @@
     {
       "type": "radar",
       "serialNumber": "RAD-003",
-      "city": "ankara_hava",
+      "city": "ankara",
       "force": "hava_kuvvetleri",
       "site": "Ankara-Kolordu-1",
       "position": { "lat": 39.9454, "lng": 32.8597 },
@@ -91,7 +77,7 @@
     {
       "type": "radar",
       "serialNumber": "RAD-004",
-      "city": "ankara_kara",
+      "city": "ankara",
       "force": "kara_kuvvetleri",
       "site": "Ankara-Kolordu-2",
       "position": { "lat": 39.9208, "lng": 32.8700 },
@@ -102,7 +88,7 @@
     {
       "type": "radar",
       "serialNumber": "RAD-005",
-      "city": "ankara_kara",
+      "city": "ankara",
       "force": "kara_kuvvetleri",
       "site": "Ankara-Kolordu-2",
       "position": { "lat": 39.9454, "lng": 32.8700 },
@@ -113,7 +99,7 @@
     {
       "type": "jammer",
       "serialNumber": "JAM-001",
-      "city": "ankara_hava",
+      "city": "ankara",
       "force": "hava_kuvvetleri",
       "site": "Ankara-Kolordu-1",
       "position": { "lat": 39.9334, "lng": 32.8497 },
@@ -140,7 +126,7 @@
     {
       "type": "jammer",
       "serialNumber": "JAM-002",
-      "city": "ankara_hava",
+      "city": "ankara",
       "force": "hava_kuvvetleri",
       "site": "Ankara-Kolordu-1",
       "position": { "lat": 39.9208, "lng": 32.8441 },
@@ -150,7 +136,7 @@
     {
       "type": "jammer",
       "serialNumber": "JAM-003",
-      "city": "ankara_hava",
+      "city": "ankara",
       "force": "hava_kuvvetleri",
       "site": "Ankara-Kolordu-1",
       "position": { "lat": 39.9454, "lng": 32.8497 },
@@ -160,7 +146,7 @@
     {
       "type": "jammer",
       "serialNumber": "JAM-004",
-      "city": "ankara_kara",
+      "city": "ankara",
       "force": "kara_kuvvetleri",
       "site": "Ankara-Kolordu-2",
       "position": { "lat": 39.9208, "lng": 32.8600 },
@@ -170,7 +156,7 @@
     {
       "type": "jammer",
       "serialNumber": "JAM-005",
-      "city": "ankara_kara",
+      "city": "ankara",
       "force": "kara_kuvvetleri",
       "site": "Ankara-Kolordu-2",
       "position": { "lat": 39.9454, "lng": 32.8600 },
@@ -180,7 +166,7 @@
     {
       "type": "radar",
       "serialNumber": "RAD-006",
-      "city": "corum_hava",
+      "city": "corum",
       "force": "hava_kuvvetleri",
       "site": "Çorum-Tabur-1",
       "position": { "lat": 40.5499, "lng": 34.9537 },
@@ -191,7 +177,7 @@
     {
       "type": "radar",
       "serialNumber": "RAD-007",
-      "city": "corum_hava",
+      "city": "corum",
       "force": "hava_kuvvetleri",
       "site": "Çorum-Tabur-1",
       "position": { "lat": 40.5400, "lng": 34.9437 },
@@ -202,7 +188,7 @@
     {
       "type": "radar",
       "serialNumber": "RAD-008",
-      "city": "corum_kara",
+      "city": "corum",
       "force": "kara_kuvvetleri",
       "site": "Çorum-Tabur-2",
       "position": { "lat": 40.5599, "lng": 34.9637 },
@@ -213,7 +199,7 @@
     {
       "type": "radar",
       "serialNumber": "RAD-009",
-      "city": "corum_kara",
+      "city": "corum",
       "force": "kara_kuvvetleri",
       "site": "Çorum-Tabur-2",
       "position": { "lat": 40.5400, "lng": 34.9537 },
@@ -224,7 +210,7 @@
     {
       "type": "radar",
       "serialNumber": "RAD-010",
-      "city": "corum_kara",
+      "city": "corum",
       "force": "kara_kuvvetleri",
       "site": "Çorum-Tabur-2",
       "position": { "lat": 40.5599, "lng": 34.9437 },
@@ -235,7 +221,7 @@
     {
       "type": "jammer",
       "serialNumber": "JAM-006",
-      "city": "corum_hava",
+      "city": "corum",
       "force": "hava_kuvvetleri",
       "site": "Çorum-Tabur-1",
       "position": { "lat": 40.5499, "lng": 34.9437 },
@@ -245,7 +231,7 @@
     {
       "type": "jammer",
       "serialNumber": "JAM-007",
-      "city": "corum_hava",
+      "city": "corum",
       "force": "hava_kuvvetleri",
       "site": "Çorum-Tabur-1",
       "position": { "lat": 40.5400, "lng": 34.9337 },
@@ -255,7 +241,7 @@
     {
       "type": "jammer",
       "serialNumber": "JAM-008",
-      "city": "corum_kara",
+      "city": "corum",
       "force": "kara_kuvvetleri",
       "site": "Çorum-Tabur-2",
       "position": { "lat": 40.5599, "lng": 34.9537 },
@@ -265,7 +251,7 @@
     {
       "type": "jammer",
       "serialNumber": "JAM-009",
-      "city": "corum_kara",
+      "city": "corum",
       "force": "kara_kuvvetleri",
       "site": "Çorum-Tabur-2",
       "position": { "lat": 40.5400, "lng": 34.9437 },
@@ -275,7 +261,7 @@
     {
       "type": "jammer",
       "serialNumber": "JAM-010",
-      "city": "corum_kara",
+      "city": "corum",
       "force": "kara_kuvvetleri",
       "site": "Çorum-Tabur-2",
       "position": { "lat": 40.5599, "lng": 34.9337 },
