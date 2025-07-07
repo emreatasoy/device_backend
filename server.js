@@ -158,6 +158,11 @@ app.delete('/devices/:serialNumber/faults/:faultId', (req, res) => {
   }
 });
 
+app.get('/cities', (req, res) => {
+  const data = readData();
+  res.json(data.cities);
+});
+
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 }); 
