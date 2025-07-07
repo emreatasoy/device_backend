@@ -1,246 +1,286 @@
-[
-  {
-    "type": "radar",
-    "serialNumber": "RAD-001",
-    "city": "ankara_hava",
-    "force": "hava_kuvvetleri",
-    "site": "Ankara-Kolordu-1",
-    "position": { "lat": 39.9334, "lng": 32.8597 },
-    "hasFault": true,
-    "faults": [
-      {
-        "id": "fault_radar_1_1",
-        "title": "Slip Ring Arızası",
-        "description": "Slip ring bileşeninde aşınma tespit edildi",
-        "severity": "high",
-        "timestamp": "2024-06-01T00:00:00.000Z",
-        "isResolved": false
-      },
-      {
-        "id": "fault_radar_1_2",
-        "title": "Sıcaklık Uyarısı",
-        "description": "Motor sıcaklığı normal değerlerin üzerinde",
-        "severity": "medium",
-        "timestamp": "2024-06-01T00:00:00.000Z",
-        "isResolved": false
-      }
-    ],
-    "slipRingEndDate": "2024-06-01T00:00:00.000Z"
-  },
-  {
-    "type": "radar",
-    "serialNumber": "RAD-002",
-    "city": "ankara_hava",
-    "force": "hava_kuvvetleri",
-    "site": "Ankara-Kolordu-1",
-    "position": { "lat": 39.9208, "lng": 32.8541 },
-    "hasFault": false,
-    "faults": [],
-    "slipRingEndDate": "2025-12-01T00:00:00.000Z"
-  },
-  {
-    "type": "radar",
-    "serialNumber": "RAD-003",
-    "city": "ankara_hava",
-    "force": "hava_kuvvetleri",
-    "site": "Ankara-Kolordu-1",
-    "position": { "lat": 39.9454, "lng": 32.8597 },
-    "hasFault": false,
-    "faults": [],
-    "slipRingEndDate": "2024-06-01T00:00:00.000Z"
-  },
-  {
-    "type": "radar",
-    "serialNumber": "RAD-004",
-    "city": "ankara_kara",
-    "force": "kara_kuvvetleri",
-    "site": "Ankara-Kolordu-2",
-    "position": { "lat": 39.9208, "lng": 32.8700 },
-    "hasFault": false,
-    "faults": [],
-    "slipRingEndDate": "2025-12-01T00:00:00.000Z"
-  },
-  {
-    "type": "radar",
-    "serialNumber": "RAD-005",
-    "city": "ankara_kara",
-    "force": "kara_kuvvetleri",
-    "site": "Ankara-Kolordu-2",
-    "position": { "lat": 39.9454, "lng": 32.8700 },
-    "hasFault": false,
-    "faults": [],
-    "slipRingEndDate": "2024-06-01T00:00:00.000Z"
-  },
-  {
-    "type": "jammer",
-    "serialNumber": "JAM-001",
-    "city": "ankara_hava",
-    "force": "hava_kuvvetleri",
-    "site": "Ankara-Kolordu-1",
-    "position": { "lat": 39.9334, "lng": 32.8497 },
-    "hasFault": true,
-    "faults": [
-      {
-        "id": "fault_jammer_1_1",
-        "title": "Güç Kaynağı Sorunu",
-        "description": "Güç kaynağı voltajı düşük seviyede",
-        "severity": "high",
-        "timestamp": "2024-06-01T00:00:00.000Z",
-        "isResolved": false
-      },
-      {
-        "id": "fault_jammer_1_2",
-        "title": "Anten Bağlantı Hatası",
-        "description": "Anten kablosu gevşek bağlantı",
-        "severity": "medium",
-        "timestamp": "2024-06-01T00:00:00.000Z",
-        "isResolved": false
-      }
-    ]
-  },
-  {
-    "type": "jammer",
-    "serialNumber": "JAM-002",
-    "city": "ankara_hava",
-    "force": "hava_kuvvetleri",
-    "site": "Ankara-Kolordu-1",
-    "position": { "lat": 39.9208, "lng": 32.8441 },
-    "hasFault": false,
-    "faults": []
-  },
-  {
-    "type": "jammer",
-    "serialNumber": "JAM-003",
-    "city": "ankara_hava",
-    "force": "hava_kuvvetleri",
-    "site": "Ankara-Kolordu-1",
-    "position": { "lat": 39.9454, "lng": 32.8497 },
-    "hasFault": false,
-    "faults": []
-  },
-  {
-    "type": "jammer",
-    "serialNumber": "JAM-004",
-    "city": "ankara_kara",
-    "force": "kara_kuvvetleri",
-    "site": "Ankara-Kolordu-2",
-    "position": { "lat": 39.9208, "lng": 32.8600 },
-    "hasFault": false,
-    "faults": []
-  },
-  {
-    "type": "jammer",
-    "serialNumber": "JAM-005",
-    "city": "ankara_kara",
-    "force": "kara_kuvvetleri",
-    "site": "Ankara-Kolordu-2",
-    "position": { "lat": 39.9454, "lng": 32.8600 },
-    "hasFault": false,
-    "faults": []
-  },
-  {
-    "type": "radar",
-    "serialNumber": "RAD-006",
-    "city": "corum_hava",
-    "force": "hava_kuvvetleri",
-    "site": "Çorum-Tabur-1",
-    "position": { "lat": 40.5499, "lng": 34.9537 },
-    "hasFault": false,
-    "faults": [],
-    "slipRingEndDate": "2024-06-01T00:00:00.000Z"
-  },
-  {
-    "type": "radar",
-    "serialNumber": "RAD-007",
-    "city": "corum_hava",
-    "force": "hava_kuvvetleri",
-    "site": "Çorum-Tabur-1",
-    "position": { "lat": 40.5400, "lng": 34.9437 },
-    "hasFault": false,
-    "faults": [],
-    "slipRingEndDate": "2025-12-01T00:00:00.000Z"
-  },
-  {
-    "type": "radar",
-    "serialNumber": "RAD-008",
-    "city": "corum_kara",
-    "force": "kara_kuvvetleri",
-    "site": "Çorum-Tabur-2",
-    "position": { "lat": 40.5599, "lng": 34.9637 },
-    "hasFault": false,
-    "faults": [],
-    "slipRingEndDate": "2024-06-01T00:00:00.000Z"
-  },
-  {
-    "type": "radar",
-    "serialNumber": "RAD-009",
-    "city": "corum_kara",
-    "force": "kara_kuvvetleri",
-    "site": "Çorum-Tabur-2",
-    "position": { "lat": 40.5400, "lng": 34.9537 },
-    "hasFault": false,
-    "faults": [],
-    "slipRingEndDate": "2025-12-01T00:00:00.000Z"
-  },
-  {
-    "type": "radar",
-    "serialNumber": "RAD-010",
-    "city": "corum_kara",
-    "force": "kara_kuvvetleri",
-    "site": "Çorum-Tabur-2",
-    "position": { "lat": 40.5599, "lng": 34.9437 },
-    "hasFault": false,
-    "faults": [],
-    "slipRingEndDate": "2024-06-01T00:00:00.000Z"
-  },
-  {
-    "type": "jammer",
-    "serialNumber": "JAM-006",
-    "city": "corum_hava",
-    "force": "hava_kuvvetleri",
-    "site": "Çorum-Tabur-1",
-    "position": { "lat": 40.5499, "lng": 34.9437 },
-    "hasFault": false,
-    "faults": []
-  },
-  {
-    "type": "jammer",
-    "serialNumber": "JAM-007",
-    "city": "corum_hava",
-    "force": "hava_kuvvetleri",
-    "site": "Çorum-Tabur-1",
-    "position": { "lat": 40.5400, "lng": 34.9337 },
-    "hasFault": false,
-    "faults": []
-  },
-  {
-    "type": "jammer",
-    "serialNumber": "JAM-008",
-    "city": "corum_kara",
-    "force": "kara_kuvvetleri",
-    "site": "Çorum-Tabur-2",
-    "position": { "lat": 40.5599, "lng": 34.9537 },
-    "hasFault": false,
-    "faults": []
-  },
-  {
-    "type": "jammer",
-    "serialNumber": "JAM-009",
-    "city": "corum_kara",
-    "force": "kara_kuvvetleri",
-    "site": "Çorum-Tabur-2",
-    "position": { "lat": 40.5400, "lng": 34.9437 },
-    "hasFault": false,
-    "faults": []
-  },
-  {
-    "type": "jammer",
-    "serialNumber": "JAM-010",
-    "city": "corum_kara",
-    "force": "kara_kuvvetleri",
-    "site": "Çorum-Tabur-2",
-    "position": { "lat": 40.5599, "lng": 34.9337 },
-    "hasFault": false,
-    "faults": []
-  }
-] 
+{
+  "forces": [
+    {
+      "id": "hava_kuvvetleri",
+      "name": "Hava Kuvvetleri",
+      "cities": [
+        {
+          "id": "ankara_hava",
+          "name": "Ankara",
+          "cityCenter": { "lat": 39.9334, "lng": 32.8597 },
+          "forceId": "hava_kuvvetleri"
+        },
+        {
+          "id": "corum_hava",
+          "name": "Çorum",
+          "cityCenter": { "lat": 40.5499, "lng": 34.9537 },
+          "forceId": "hava_kuvvetleri"
+        }
+      ]
+    },
+    {
+      "id": "kara_kuvvetleri",
+      "name": "Kara Kuvvetleri",
+      "cities": [
+        {
+          "id": "ankara_kara",
+          "name": "Ankara",
+          "cityCenter": { "lat": 39.9334, "lng": 32.8597 },
+          "forceId": "kara_kuvvetleri"
+        },
+        {
+          "id": "corum_kara",
+          "name": "Çorum",
+          "cityCenter": { "lat": 40.5499, "lng": 34.9537 },
+          "forceId": "kara_kuvvetleri"
+        }
+      ]
+    }
+  ],
+  "devices": [
+    {
+      "type": "radar",
+      "serialNumber": "RAD-001",
+      "city": "ankara_hava",
+      "force": "hava_kuvvetleri",
+      "site": "Ankara-Kolordu-1",
+      "position": { "lat": 39.9334, "lng": 32.8597 },
+      "hasFault": true,
+      "faults": [
+        {
+          "id": "fault_radar_1_1",
+          "title": "Slip Ring Arızası",
+          "description": "Slip ring bileşeninde aşınma tespit edildi",
+          "severity": "high",
+          "timestamp": "2024-06-01T00:00:00.000Z",
+          "isResolved": false
+        },
+        {
+          "id": "fault_radar_1_2",
+          "title": "Sıcaklık Uyarısı",
+          "description": "Motor sıcaklığı normal değerlerin üzerinde",
+          "severity": "medium",
+          "timestamp": "2024-06-01T00:00:00.000Z",
+          "isResolved": false
+        }
+      ],
+      "slipRingEndDate": "2024-06-01T00:00:00.000Z"
+    },
+    {
+      "type": "radar",
+      "serialNumber": "RAD-002",
+      "city": "ankara_hava",
+      "force": "hava_kuvvetleri",
+      "site": "Ankara-Kolordu-1",
+      "position": { "lat": 39.9208, "lng": 32.8541 },
+      "hasFault": false,
+      "faults": [],
+      "slipRingEndDate": "2025-12-01T00:00:00.000Z"
+    },
+    {
+      "type": "radar",
+      "serialNumber": "RAD-003",
+      "city": "ankara_hava",
+      "force": "hava_kuvvetleri",
+      "site": "Ankara-Kolordu-1",
+      "position": { "lat": 39.9454, "lng": 32.8597 },
+      "hasFault": false,
+      "faults": [],
+      "slipRingEndDate": "2024-06-01T00:00:00.000Z"
+    },
+    {
+      "type": "radar",
+      "serialNumber": "RAD-004",
+      "city": "ankara_kara",
+      "force": "kara_kuvvetleri",
+      "site": "Ankara-Kolordu-2",
+      "position": { "lat": 39.9208, "lng": 32.8700 },
+      "hasFault": false,
+      "faults": [],
+      "slipRingEndDate": "2025-12-01T00:00:00.000Z"
+    },
+    {
+      "type": "radar",
+      "serialNumber": "RAD-005",
+      "city": "ankara_kara",
+      "force": "kara_kuvvetleri",
+      "site": "Ankara-Kolordu-2",
+      "position": { "lat": 39.9454, "lng": 32.8700 },
+      "hasFault": false,
+      "faults": [],
+      "slipRingEndDate": "2024-06-01T00:00:00.000Z"
+    },
+    {
+      "type": "jammer",
+      "serialNumber": "JAM-001",
+      "city": "ankara_hava",
+      "force": "hava_kuvvetleri",
+      "site": "Ankara-Kolordu-1",
+      "position": { "lat": 39.9334, "lng": 32.8497 },
+      "hasFault": true,
+      "faults": [
+        {
+          "id": "fault_jammer_1_1",
+          "title": "Güç Kaynağı Sorunu",
+          "description": "Güç kaynağı voltajı düşük seviyede",
+          "severity": "high",
+          "timestamp": "2024-06-01T00:00:00.000Z",
+          "isResolved": false
+        },
+        {
+          "id": "fault_jammer_1_2",
+          "title": "Anten Bağlantı Hatası",
+          "description": "Anten kablosu gevşek bağlantı",
+          "severity": "medium",
+          "timestamp": "2024-06-01T00:00:00.000Z",
+          "isResolved": false
+        }
+      ]
+    },
+    {
+      "type": "jammer",
+      "serialNumber": "JAM-002",
+      "city": "ankara_hava",
+      "force": "hava_kuvvetleri",
+      "site": "Ankara-Kolordu-1",
+      "position": { "lat": 39.9208, "lng": 32.8441 },
+      "hasFault": false,
+      "faults": []
+    },
+    {
+      "type": "jammer",
+      "serialNumber": "JAM-003",
+      "city": "ankara_hava",
+      "force": "hava_kuvvetleri",
+      "site": "Ankara-Kolordu-1",
+      "position": { "lat": 39.9454, "lng": 32.8497 },
+      "hasFault": false,
+      "faults": []
+    },
+    {
+      "type": "jammer",
+      "serialNumber": "JAM-004",
+      "city": "ankara_kara",
+      "force": "kara_kuvvetleri",
+      "site": "Ankara-Kolordu-2",
+      "position": { "lat": 39.9208, "lng": 32.8600 },
+      "hasFault": false,
+      "faults": []
+    },
+    {
+      "type": "jammer",
+      "serialNumber": "JAM-005",
+      "city": "ankara_kara",
+      "force": "kara_kuvvetleri",
+      "site": "Ankara-Kolordu-2",
+      "position": { "lat": 39.9454, "lng": 32.8600 },
+      "hasFault": false,
+      "faults": []
+    },
+    {
+      "type": "radar",
+      "serialNumber": "RAD-006",
+      "city": "corum_hava",
+      "force": "hava_kuvvetleri",
+      "site": "Çorum-Tabur-1",
+      "position": { "lat": 40.5499, "lng": 34.9537 },
+      "hasFault": false,
+      "faults": [],
+      "slipRingEndDate": "2024-06-01T00:00:00.000Z"
+    },
+    {
+      "type": "radar",
+      "serialNumber": "RAD-007",
+      "city": "corum_hava",
+      "force": "hava_kuvvetleri",
+      "site": "Çorum-Tabur-1",
+      "position": { "lat": 40.5400, "lng": 34.9437 },
+      "hasFault": false,
+      "faults": [],
+      "slipRingEndDate": "2025-12-01T00:00:00.000Z"
+    },
+    {
+      "type": "radar",
+      "serialNumber": "RAD-008",
+      "city": "corum_kara",
+      "force": "kara_kuvvetleri",
+      "site": "Çorum-Tabur-2",
+      "position": { "lat": 40.5599, "lng": 34.9637 },
+      "hasFault": false,
+      "faults": [],
+      "slipRingEndDate": "2024-06-01T00:00:00.000Z"
+    },
+    {
+      "type": "radar",
+      "serialNumber": "RAD-009",
+      "city": "corum_kara",
+      "force": "kara_kuvvetleri",
+      "site": "Çorum-Tabur-2",
+      "position": { "lat": 40.5400, "lng": 34.9537 },
+      "hasFault": false,
+      "faults": [],
+      "slipRingEndDate": "2025-12-01T00:00:00.000Z"
+    },
+    {
+      "type": "radar",
+      "serialNumber": "RAD-010",
+      "city": "corum_kara",
+      "force": "kara_kuvvetleri",
+      "site": "Çorum-Tabur-2",
+      "position": { "lat": 40.5599, "lng": 34.9437 },
+      "hasFault": false,
+      "faults": [],
+      "slipRingEndDate": "2024-06-01T00:00:00.000Z"
+    },
+    {
+      "type": "jammer",
+      "serialNumber": "JAM-006",
+      "city": "corum_hava",
+      "force": "hava_kuvvetleri",
+      "site": "Çorum-Tabur-1",
+      "position": { "lat": 40.5499, "lng": 34.9437 },
+      "hasFault": false,
+      "faults": []
+    },
+    {
+      "type": "jammer",
+      "serialNumber": "JAM-007",
+      "city": "corum_hava",
+      "force": "hava_kuvvetleri",
+      "site": "Çorum-Tabur-1",
+      "position": { "lat": 40.5400, "lng": 34.9337 },
+      "hasFault": false,
+      "faults": []
+    },
+    {
+      "type": "jammer",
+      "serialNumber": "JAM-008",
+      "city": "corum_kara",
+      "force": "kara_kuvvetleri",
+      "site": "Çorum-Tabur-2",
+      "position": { "lat": 40.5599, "lng": 34.9537 },
+      "hasFault": false,
+      "faults": []
+    },
+    {
+      "type": "jammer",
+      "serialNumber": "JAM-009",
+      "city": "corum_kara",
+      "force": "kara_kuvvetleri",
+      "site": "Çorum-Tabur-2",
+      "position": { "lat": 40.5400, "lng": 34.9437 },
+      "hasFault": false,
+      "faults": []
+    },
+    {
+      "type": "jammer",
+      "serialNumber": "JAM-010",
+      "city": "corum_kara",
+      "force": "kara_kuvvetleri",
+      "site": "Çorum-Tabur-2",
+      "position": { "lat": 40.5599, "lng": 34.9337 },
+      "hasFault": false,
+      "faults": []
+    }
+  ]
+} 
