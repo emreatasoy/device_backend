@@ -2,7 +2,7 @@
   {
     "type": "radar",
     "serialNumber": "RAD-001",
-    "city": "Ankara",
+    "city": "ankara_hava",
     "site": "Ankara-Kolordu-1",
     "position": { "lat": 39.9334, "lng": 32.8597 },
     "hasFault": true,
@@ -29,7 +29,7 @@
   {
     "type": "radar",
     "serialNumber": "RAD-002",
-    "city": "Ankara",
+    "city": "ankara_hava",
     "site": "Ankara-Kolordu-1",
     "position": { "lat": 39.9208, "lng": 32.8541 },
     "hasFault": false,
@@ -39,7 +39,7 @@
   {
     "type": "radar",
     "serialNumber": "RAD-003",
-    "city": "Ankara",
+    "city": "ankara_hava",
     "site": "Ankara-Kolordu-1",
     "position": { "lat": 39.9454, "lng": 32.8597 },
     "hasFault": false,
@@ -49,8 +49,8 @@
   {
     "type": "radar",
     "serialNumber": "RAD-004",
-    "city": "Ankara",
-    "site": "Ankara-Kolordu-1",
+    "city": "ankara_kara",
+    "site": "Ankara-Kolordu-2",
     "position": { "lat": 39.9208, "lng": 32.8700 },
     "hasFault": false,
     "faults": [],
@@ -59,8 +59,8 @@
   {
     "type": "radar",
     "serialNumber": "RAD-005",
-    "city": "Ankara",
-    "site": "Ankara-Kolordu-1",
+    "city": "ankara_kara",
+    "site": "Ankara-Kolordu-2",
     "position": { "lat": 39.9454, "lng": 32.8700 },
     "hasFault": false,
     "faults": [],
@@ -69,7 +69,7 @@
   {
     "type": "jammer",
     "serialNumber": "JAM-001",
-    "city": "Ankara",
+    "city": "ankara_hava",
     "site": "Ankara-Kolordu-1",
     "position": { "lat": 39.9334, "lng": 32.8497 },
     "hasFault": true,
@@ -95,7 +95,7 @@
   {
     "type": "jammer",
     "serialNumber": "JAM-002",
-    "city": "Ankara",
+    "city": "ankara_hava",
     "site": "Ankara-Kolordu-1",
     "position": { "lat": 39.9208, "lng": 32.8441 },
     "hasFault": false,
@@ -104,7 +104,7 @@
   {
     "type": "jammer",
     "serialNumber": "JAM-003",
-    "city": "Ankara",
+    "city": "ankara_hava",
     "site": "Ankara-Kolordu-1",
     "position": { "lat": 39.9454, "lng": 32.8497 },
     "hasFault": false,
@@ -113,8 +113,8 @@
   {
     "type": "jammer",
     "serialNumber": "JAM-004",
-    "city": "Ankara",
-    "site": "Ankara-Kolordu-1",
+    "city": "ankara_kara",
+    "site": "Ankara-Kolordu-2",
     "position": { "lat": 39.9208, "lng": 32.8600 },
     "hasFault": false,
     "faults": []
@@ -122,8 +122,8 @@
   {
     "type": "jammer",
     "serialNumber": "JAM-005",
-    "city": "Ankara",
-    "site": "Ankara-Kolordu-1",
+    "city": "ankara_kara",
+    "site": "Ankara-Kolordu-2",
     "position": { "lat": 39.9454, "lng": 32.8600 },
     "hasFault": false,
     "faults": []
@@ -131,7 +131,7 @@
   {
     "type": "radar",
     "serialNumber": "RAD-006",
-    "city": "Çorum",
+    "city": "corum_hava",
     "site": "Çorum-Tabur-1",
     "position": { "lat": 40.5499, "lng": 34.9537 },
     "hasFault": false,
@@ -141,7 +141,7 @@
   {
     "type": "radar",
     "serialNumber": "RAD-007",
-    "city": "Çorum",
+    "city": "corum_hava",
     "site": "Çorum-Tabur-1",
     "position": { "lat": 40.5400, "lng": 34.9437 },
     "hasFault": false,
@@ -151,8 +151,8 @@
   {
     "type": "radar",
     "serialNumber": "RAD-008",
-    "city": "Çorum",
-    "site": "Çorum-Tabur-1",
+    "city": "corum_kara",
+    "site": "Çorum-Tabur-2",
     "position": { "lat": 40.5599, "lng": 34.9637 },
     "hasFault": false,
     "faults": [],
@@ -161,8 +161,8 @@
   {
     "type": "radar",
     "serialNumber": "RAD-009",
-    "city": "Çorum",
-    "site": "Çorum-Tabur-1",
+    "city": "corum_kara",
+    "site": "Çorum-Tabur-2",
     "position": { "lat": 40.5400, "lng": 34.9537 },
     "hasFault": false,
     "faults": [],
@@ -171,8 +171,8 @@
   {
     "type": "radar",
     "serialNumber": "RAD-010",
-    "city": "Çorum",
-    "site": "Çorum-Tabur-1",
+    "city": "corum_kara",
+    "site": "Çorum-Tabur-2",
     "position": { "lat": 40.5599, "lng": 34.9437 },
     "hasFault": false,
     "faults": [],
@@ -181,7 +181,7 @@
   {
     "type": "jammer",
     "serialNumber": "JAM-006",
-    "city": "Çorum",
+    "city": "corum_hava",
     "site": "Çorum-Tabur-1",
     "position": { "lat": 40.5499, "lng": 34.9437 },
     "hasFault": false,
@@ -190,7 +190,7 @@
   {
     "type": "jammer",
     "serialNumber": "JAM-007",
-    "city": "Çorum",
+    "city": "corum_hava",
     "site": "Çorum-Tabur-1",
     "position": { "lat": 40.5400, "lng": 34.9337 },
     "hasFault": false,
@@ -199,8 +199,8 @@
   {
     "type": "jammer",
     "serialNumber": "JAM-008",
-    "city": "Çorum",
-    "site": "Çorum-Tabur-1",
+    "city": "corum_kara",
+    "site": "Çorum-Tabur-2",
     "position": { "lat": 40.5599, "lng": 34.9537 },
     "hasFault": false,
     "faults": []
@@ -208,8 +208,8 @@
   {
     "type": "jammer",
     "serialNumber": "JAM-009",
-    "city": "Çorum",
-    "site": "Çorum-Tabur-1",
+    "city": "corum_kara",
+    "site": "Çorum-Tabur-2",
     "position": { "lat": 40.5400, "lng": 34.9437 },
     "hasFault": false,
     "faults": []
@@ -217,8 +217,8 @@
   {
     "type": "jammer",
     "serialNumber": "JAM-010",
-    "city": "Çorum",
-    "site": "Çorum-Tabur-1",
+    "city": "corum_kara",
+    "site": "Çorum-Tabur-2",
     "position": { "lat": 40.5599, "lng": 34.9337 },
     "hasFault": false,
     "faults": []
