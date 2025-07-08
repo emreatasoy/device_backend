@@ -142,6 +142,15 @@ app.put('/devices/:serialNumber/faults/:faultId', (req, res) => {
   }
 });
 
+app.get('/debug/devicesjson', (req, res) => {
+  try {
+    const content = fs.readFileSync(devicesFile, 'utf-8');
+    res.type('application/json').send(content);
+  } catch (e) {
+    res.status(500).send('devices.json okunamadı: ' + e);
+  }
+});
+
 app.delete('/devices/:serialNumber/faults/:faultId', (req, res) => {
   const devices = readData().devices;
   const device = devices.find(d => d.serialNumber === req.params.serialNumber);
