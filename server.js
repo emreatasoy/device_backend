@@ -10,20 +10,46 @@ const wss = new WebSocket.Server({ server });
 const PORT = process.env.PORT || 3000;
 
 const devicesFile = path.join(__dirname, 'devices.json');
+const citiesFile = path.join(__dirname, 'cities.json');
+const forcesFile = path.join(__dirname, 'forces.json');
 
-function readData() {
+function readDevices() {
   try {
     return JSON.parse(fs.readFileSync(devicesFile, 'utf-8'));
   } catch (e) {
     console.error('devices.json okunamadı veya bozuk:', e);
-    return { devices: [], cities: [], forces: [] }; // veya uygun bir boş obje
+    return [];
+  }
+}
+
+function readCities() {
+  try {
+    return JSON.parse(fs.readFileSync(citiesFile, 'utf-8'));
+  } catch (e) {
+    console.error('cities.json okunamadı veya bozuk:', e);
+    return [];
+  }
+}
+
+function readForces() {
+  try {
+    return JSON.parse(fs.readFileSync(forcesFile, 'utf-8'));
+  } catch (e) {
+    console.error('forces.json okunamadı veya bozuk:', e);
+    return [];
   }
 }
 
 function writeDevices(devices) {
-  const data = readData();
-  data.devices = devices;
-  fs.writeFileSync(devicesFile, JSON.stringify(data, null, 2));
+  fs.writeFileSync(devicesFile, JSON.stringify(devices, null, 2));
+}
+
+function writeCities(cities) {
+  fs.writeFileSync(citiesFile, JSON.stringify(cities, null, 2));
+}
+
+function writeForces(forces) {
+  fs.writeFileSync(forcesFile, JSON.stringify(forces, null, 2));
 }
 
 app.use(cors());
@@ -50,39 +76,47 @@ app.get('/', (req, res) => {
 });
 
 app.get('/forces', (req, res) => {
-  const data = readData();
-  res.json(data.forces);
+  const forces = readForces();
+  res.json(forces);
 });
 
 app.get('/devices', (req, res) => {
-  const data = readData();
-  // Eğer data bir dizi ise (eski format), sadece devices kısmını döndür
-  // Eğer data bir obje ise (yeni format), devices dizisini döndür
-  if (Array.isArray(data)) {
-    res.json(data);
-  } else {
-    res.json(data.devices || []);
-  }
+  const devices = readDevices();
+  res.json(devices);
 });
 
 app.get('/devices/:serialNumber', (req, res) => {
-  const devices = readData().devices.find(d => d.serialNumber === req.params.serialNumber);
-  if (devices) {
-    res.json(devices);
+  const devices = readDevices();
+  const device = devices.find(d => d.serialNumber === req.params.serialNumber);
+  if (device) {
+    res.json(device);
   } else {
     res.status(404).json({ error: 'Device not found' });
   }
 });
 
 app.post('/devices', (req, res) => {
-  const devices = readData().devices;
+  const devices = readDevices();
+  
   const newDevice = req.body;
+  
+  // Zorunlu alanları kontrol et
   if (!newDevice.model || typeof newDevice.model !== 'string' || newDevice.model.trim() === '') {
     return res.status(400).json({ error: 'Model alanı zorunludur ve boş olamaz.' });
   }
+  
+  if (!newDevice.force || typeof newDevice.force !== 'string' || newDevice.force.trim() === '') {
+    return res.status(400).json({ error: 'Force alanı zorunludur ve boş olamaz.' });
+  }
+  
+  if (!newDevice.city || typeof newDevice.city !== 'string' || newDevice.city.trim() === '') {
+    return res.status(400).json({ error: 'City alanı zorunludur ve boş olamaz.' });
+  }
+  
   if (devices.some(d => d.serialNumber === newDevice.serialNumber)) {
     return res.status(409).json({ error: 'Bu seri numarası ile tanımlı cihaz zaten var.' });
   }
+  
   devices.push(newDevice);
   writeDevices(devices);
   broadcastDeviceUpdate(newDevice.serialNumber);
@@ -90,7 +124,7 @@ app.post('/devices', (req, res) => {
 });
 
 app.put('/devices/:serialNumber', (req, res) => {
-  const devices = readData().devices;
+  const devices = readDevices();
   const index = devices.findIndex(d => d.serialNumber === req.params.serialNumber);
   if (index !== -1) {
     devices[index] = { ...devices[index], ...req.body };
@@ -102,7 +136,7 @@ app.put('/devices/:serialNumber', (req, res) => {
 });
 
 app.delete('/devices/:serialNumber', (req, res) => {
-  const devices = readData().devices;
+  const devices = readDevices();
   const index = devices.findIndex(d => d.serialNumber === req.params.serialNumber);
   if (index !== -1) {
     const deletedDevice = devices[index];
@@ -117,7 +151,7 @@ app.delete('/devices/:serialNumber', (req, res) => {
 
 // Fault management endpoints
 app.post('/devices/:serialNumber/faults', (req, res) => {
-  const devices = readData().devices;
+  const devices = readDevices();
   const device = devices.find(d => d.serialNumber === req.params.serialNumber);
   if (device) {
     const newFault = {
@@ -137,7 +171,7 @@ app.post('/devices/:serialNumber/faults', (req, res) => {
 });
 
 app.put('/devices/:serialNumber/faults/:faultId', (req, res) => {
-  const devices = readData().devices;
+  const devices = readDevices();
   const device = devices.find(d => d.serialNumber === req.params.serialNumber);
   if (device) {
     const fault = device.faults.find(f => f.id === req.params.faultId);
@@ -320,7 +354,7 @@ app.get('/admin', (req, res) => {
 });
 
 app.delete('/devices/:serialNumber/faults/:faultId', (req, res) => {
-  const devices = readData().devices;
+  const devices = readDevices();
   const device = devices.find(d => d.serialNumber === req.params.serialNumber);
   if (device) {
     const faultIndex = device.faults.findIndex(f => f.id === req.params.faultId);
@@ -339,8 +373,8 @@ app.delete('/devices/:serialNumber/faults/:faultId', (req, res) => {
 });
 
 app.get('/cities', (req, res) => {
-  const data = readData();
-  res.json(data.cities);
+  const cities = readCities();
+  res.json(cities);
 });
 
 // Dosya yönetimi API endpoint'leri
@@ -366,11 +400,6 @@ app.post('/api/devices/upload', (req, res) => {
     // JSON geçerliliğini kontrol et
     const parsedData = JSON.parse(content);
     
-    // Gerekli alanların varlığını kontrol et
-    if (!parsedData.cities || !parsedData.forces || !parsedData.devices) {
-      return res.status(400).json({ error: 'JSON dosyası cities, forces ve devices alanlarını içermelidir' });
-    }
-
     // Dosyayı kaydet
     fs.writeFileSync(devicesFile, JSON.stringify(parsedData, null, 2));
     
@@ -390,35 +419,9 @@ app.post('/api/devices/upload', (req, res) => {
 app.post('/api/devices/reset', (req, res) => {
   try {
     // Varsayılan devices.json içeriği
-    const defaultData = {
-      "cities": [
-        {
-          "id": "ankara",
-          "name": "Ankara",
-          "cityCenter": { "lat": 39.9334, "lng": 32.8597 }
-        },
-        {
-          "id": "corum",
-          "name": "Çorum",
-          "cityCenter": { "lat": 40.5499, "lng": 34.9537 }
-        }
-      ],
-      "forces": [
-        {
-          "id": "hava_kuvvetleri",
-          "name": "Hava Kuvvetleri",
-          "cityIds": ["ankara", "corum"]
-        },
-        {
-          "id": "kara_kuvvetleri",
-          "name": "Kara Kuvvetleri",
-          "cityIds": ["ankara", "corum"]
-        }
-      ],
-      "devices": []
-    };
+    const defaultDevices = [];
 
-    fs.writeFileSync(devicesFile, JSON.stringify(defaultData, null, 2));
+    fs.writeFileSync(devicesFile, JSON.stringify(defaultDevices, null, 2));
     
     // WebSocket ile güncelleme bildir
     wss.clients.forEach(function each(client) {
@@ -435,16 +438,23 @@ app.post('/api/devices/reset', (req, res) => {
 
 app.get('/api/status', (req, res) => {
   try {
-    const stats = fs.statSync(devicesFile);
-    const data = readData();
+    const devicesStats = fs.statSync(devicesFile);
+    const citiesStats = fs.statSync(citiesFile);
+    const forcesStats = fs.statSync(forcesFile);
+    
+    const devices = readDevices();
+    const cities = readCities();
+    const forces = readForces();
     
     res.json({
-      fileSize: stats.size,
-      deviceCount: data.devices ? data.devices.length : 0,
-      cityCount: data.cities ? data.cities.length : 0,
-      forceCount: data.forces ? data.forces.length : 0,
+      devicesFileSize: devicesStats.size,
+      citiesFileSize: citiesStats.size,
+      forcesFileSize: forcesStats.size,
+      deviceCount: devices.length,
+      cityCount: cities.length,
+      forceCount: forces.length,
       websocketConnections: wss.clients.size,
-      lastModified: stats.mtime
+      lastModified: devicesStats.mtime
     });
   } catch (e) {
     res.status(500).json({ error: 'Durum bilgisi alınamadı: ' + e.message });
