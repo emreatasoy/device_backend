@@ -1,29 +1,4 @@
-{
-  "cities": [
-    {
-      "id": "ankara",
-      "name": "Ankara",
-      "cityCenter": { "lat": 39.9334, "lng": 32.8597 }
-    },
-    {
-      "id": "corum",
-      "name": "Çorum",
-      "cityCenter": { "lat": 40.5499, "lng": 34.9537 }
-    }
-  ],
-  "forces": [
-    {
-      "id": "hava_kuvvetleri",
-      "name": "Hava Kuvvetleri",
-      "cityIds": ["ankara", "corum"]
-    },
-    {
-      "id": "kara_kuvvetleri",
-      "name": "Kara Kuvvetleri",
-      "cityIds": ["ankara", "corum"]
-    }
-  ],
-  "devices": [
+[
     {
       "type": "radar",
       "serialNumber": "RAD-001",
@@ -288,5 +263,4 @@
       "hasFault": false,
       "faults": []
     }
-  ]
-} 
+  ] 
