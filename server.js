@@ -56,7 +56,13 @@ app.get('/forces', (req, res) => {
 
 app.get('/devices', (req, res) => {
   const data = readData();
-  res.json(data.devices);
+  // Eğer data bir dizi ise (eski format), sadece devices kısmını döndür
+  // Eğer data bir obje ise (yeni format), devices dizisini döndür
+  if (Array.isArray(data)) {
+    res.json(data);
+  } else {
+    res.json(data.devices || []);
+  }
 });
 
 app.get('/devices/:serialNumber', (req, res) => {
