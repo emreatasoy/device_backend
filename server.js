@@ -12,6 +12,7 @@ const PORT = process.env.PORT || 3000;
 const devicesFile = path.join(__dirname, 'devices.json');
 const citiesFile = path.join(__dirname, 'cities.json');
 const forcesFile = path.join(__dirname, 'forces.json');
+const sitesFile = path.join(__dirname, 'sites.json');
 
 function readDevices() {
   try {
@@ -40,6 +41,15 @@ function readForces() {
   }
 }
 
+function readSites() {
+  try {
+    return JSON.parse(fs.readFileSync(sitesFile, 'utf-8'));
+  } catch (e) {
+    console.error('sites.json okunamadı veya bozuk:', e);
+    return [];
+  }
+}
+
 function writeDevices(devices) {
   fs.writeFileSync(devicesFile, JSON.stringify(devices, null, 2));
 }
@@ -50,6 +60,10 @@ function writeCities(cities) {
 
 function writeForces(forces) {
   fs.writeFileSync(forcesFile, JSON.stringify(forces, null, 2));
+}
+
+function writeSites(sites) {
+  fs.writeFileSync(sitesFile, JSON.stringify(sites, null, 2));
 }
 
 app.use(cors());
@@ -78,6 +92,11 @@ app.get('/', (req, res) => {
 app.get('/forces', (req, res) => {
   const forces = readForces();
   res.json(forces);
+});
+
+app.get('/sites', (req, res) => {
+  const sites = readSites();
+  res.json(sites);
 });
 
 app.get('/devices', (req, res) => {
@@ -220,13 +239,21 @@ app.get('/admin', (req, res) => {
         <h1>🔧 Device Monitor - Dosya Yönetimi</h1>
         
         <div class="section">
-            <h3>📥 Mevcut devices.json İndir</h3>
-            <button class="download-btn" onclick="downloadCurrentFile()">Dosyayı İndir</button>
-            <button onclick="loadCurrentFile()">Dosyayı Yükle ve Göster</button>
+            <h3>📥 Mevcut Dosyaları İndir</h3>
+            <button class="download-btn" onclick="downloadCurrentFile('devices')">devices.json İndir</button>
+            <button class="download-btn" onclick="downloadCurrentFile('cities')">cities.json İndir</button>
+            <button class="download-btn" onclick="downloadCurrentFile('forces')">forces.json İndir</button>
+            <button class="download-btn" onclick="downloadCurrentFile('sites')">sites.json İndir</button>
         </div>
 
         <div class="section">
-            <h3>📝 devices.json Düzenle</h3>
+            <h3>📝 Dosya Düzenle</h3>
+            <div>
+                <button onclick="loadCurrentFile('devices')">devices.json Yükle</button>
+                <button onclick="loadCurrentFile('cities')">cities.json Yükle</button>
+                <button onclick="loadCurrentFile('forces')">forces.json Yükle</button>
+                <button onclick="loadCurrentFile('sites')">sites.json Yükle</button>
+            </div>
             <div id="message"></div>
             <textarea id="jsonEditor" placeholder="JSON içeriğini buraya yapıştırın..."></textarea>
             <br>
@@ -248,14 +275,16 @@ app.get('/admin', (req, res) => {
             setTimeout(() => msgDiv.innerHTML = '', 5000);
         }
 
-        async function downloadCurrentFile() {
+        let currentFileType = 'devices';
+
+        async function downloadCurrentFile(fileType = 'devices') {
             try {
-                const response = await fetch('/api/devices/download');
+                const response = await fetch(\`/api/\${fileType}/download\`);
                 const blob = await response.blob();
                 const url = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = 'devices.json';
+                a.download = \`\${fileType}.json\`;
                 a.click();
                 window.URL.revokeObjectURL(url);
             } catch (error) {
@@ -263,12 +292,13 @@ app.get('/admin', (req, res) => {
             }
         }
 
-        async function loadCurrentFile() {
+        async function loadCurrentFile(fileType = 'devices') {
             try {
-                const response = await fetch('/api/devices/download');
+                currentFileType = fileType;
+                const response = await fetch(\`/api/\${fileType}/download\`);
                 const content = await response.text();
                 document.getElementById('jsonEditor').value = content;
-                showMessage('Dosya başarıyla yüklendi!', 'success');
+                showMessage(\`\${fileType}.json dosyası başarıyla yüklendi!\`, 'success');
             } catch (error) {
                 showMessage('Dosya yükleme hatası: ' + error.message, 'error');
             }
@@ -285,14 +315,14 @@ app.get('/admin', (req, res) => {
                 // JSON geçerliliğini kontrol et
                 JSON.parse(content);
                 
-                const response = await fetch('/api/devices/upload', {
+                const response = await fetch(\`/api/\${currentFileType}/upload\`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ content: content })
                 });
 
                 if (response.ok) {
-                    showMessage('Dosya başarıyla kaydedildi!', 'success');
+                    showMessage(\`\${currentFileType}.json dosyası başarıyla kaydedildi!\`, 'success');
                 } else {
                     const error = await response.text();
                     showMessage('Kaydetme hatası: ' + error, 'error');
@@ -330,10 +360,14 @@ app.get('/admin', (req, res) => {
                 let html = '<div class="info">';
                 html += '<strong>Sistem Durumu:</strong><br>';
                 html += '✅ Sunucu çalışıyor<br>';
-                html += '📁 Dosya boyutu: ' + status.fileSize + ' bytes<br>';
+                html += '📁 Devices dosya boyutu: ' + status.devicesFileSize + ' bytes<br>';
+                html += '📁 Cities dosya boyutu: ' + status.citiesFileSize + ' bytes<br>';
+                html += '📁 Forces dosya boyutu: ' + status.forcesFileSize + ' bytes<br>';
+                html += '📁 Sites dosya boyutu: ' + status.sitesFileSize + ' bytes<br>';
                 html += '📊 Cihaz sayısı: ' + status.deviceCount + '<br>';
                 html += '🏙️ Şehir sayısı: ' + status.cityCount + '<br>';
                 html += '⚔️ Kuvvet sayısı: ' + status.forceCount + '<br>';
+                html += '🏢 Site sayısı: ' + status.siteCount + '<br>';
                 html += '🔗 WebSocket bağlantıları: ' + status.websocketConnections + '<br>';
                 html += '</div>';
                 
@@ -375,6 +409,111 @@ app.delete('/devices/:serialNumber/faults/:faultId', (req, res) => {
 app.get('/cities', (req, res) => {
   const cities = readCities();
   res.json(cities);
+});
+
+// Dosya yönetimi API endpoint'leri - Cities
+app.get('/api/cities/download', (req, res) => {
+  try {
+    const content = fs.readFileSync(citiesFile, 'utf-8');
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Content-Disposition', 'attachment; filename="cities.json"');
+    res.send(content);
+  } catch (e) {
+    res.status(500).json({ error: 'Dosya okunamadı: ' + e.message });
+  }
+});
+
+app.post('/api/cities/upload', (req, res) => {
+  try {
+    const { content } = req.body;
+    
+    if (!content) {
+      return res.status(400).json({ error: 'İçerik boş olamaz' });
+    }
+
+    const parsedData = JSON.parse(content);
+    fs.writeFileSync(citiesFile, JSON.stringify(parsedData, null, 2));
+    
+    wss.clients.forEach(function each(client) {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify({ type: 'file_updated' }));
+      }
+    });
+
+    res.json({ message: 'Dosya başarıyla güncellendi' });
+  } catch (e) {
+    res.status(400).json({ error: 'Geçersiz JSON: ' + e.message });
+  }
+});
+
+// Dosya yönetimi API endpoint'leri - Forces
+app.get('/api/forces/download', (req, res) => {
+  try {
+    const content = fs.readFileSync(forcesFile, 'utf-8');
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Content-Disposition', 'attachment; filename="forces.json"');
+    res.send(content);
+  } catch (e) {
+    res.status(500).json({ error: 'Dosya okunamadı: ' + e.message });
+  }
+});
+
+app.post('/api/forces/upload', (req, res) => {
+  try {
+    const { content } = req.body;
+    
+    if (!content) {
+      return res.status(400).json({ error: 'İçerik boş olamaz' });
+    }
+
+    const parsedData = JSON.parse(content);
+    fs.writeFileSync(forcesFile, JSON.stringify(parsedData, null, 2));
+    
+    wss.clients.forEach(function each(client) {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify({ type: 'file_updated' }));
+      }
+    });
+
+    res.json({ message: 'Dosya başarıyla güncellendi' });
+  } catch (e) {
+    res.status(400).json({ error: 'Geçersiz JSON: ' + e.message });
+  }
+});
+
+// Dosya yönetimi API endpoint'leri - Sites
+app.get('/api/sites/download', (req, res) => {
+  try {
+    const content = fs.readFileSync(sitesFile, 'utf-8');
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Content-Disposition', 'attachment; filename="sites.json"');
+    res.send(content);
+  } catch (e) {
+    res.status(500).json({ error: 'Dosya okunamadı: ' + e.message });
+  }
+});
+
+app.post('/api/sites/upload', (req, res) => {
+  try {
+    const { content } = req.body;
+    
+    if (!content) {
+      return res.status(400).json({ error: 'İçerik boş olamaz' });
+    }
+
+    const parsedData = JSON.parse(content);
+    fs.writeFileSync(sitesFile, JSON.stringify(parsedData, null, 2));
+    
+    wss.clients.forEach(function each(client) {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify({ type: 'file_updated' }));
+      }
+    });
+
+    res.json({ message: 'Dosya başarıyla güncellendi' });
+  } catch (e) {
+    res.status(400).json({ error: 'Geçersiz JSON: ' + e.message });
+  }
 });
 
 // Dosya yönetimi API endpoint'leri
@@ -441,18 +580,22 @@ app.get('/api/status', (req, res) => {
     const devicesStats = fs.statSync(devicesFile);
     const citiesStats = fs.statSync(citiesFile);
     const forcesStats = fs.statSync(forcesFile);
+    const sitesStats = fs.statSync(sitesFile);
     
     const devices = readDevices();
     const cities = readCities();
     const forces = readForces();
+    const sites = readSites();
     
     res.json({
       devicesFileSize: devicesStats.size,
       citiesFileSize: citiesStats.size,
       forcesFileSize: forcesStats.size,
+      sitesFileSize: sitesStats.size,
       deviceCount: devices.length,
       cityCount: cities.length,
       forceCount: forces.length,
+      siteCount: sites.length,
       websocketConnections: wss.clients.size,
       lastModified: devicesStats.mtime
     });
