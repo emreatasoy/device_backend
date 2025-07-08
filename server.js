@@ -12,7 +12,12 @@ const PORT = process.env.PORT || 3000;
 const devicesFile = path.join(__dirname, 'devices.json');
 
 function readData() {
-  return JSON.parse(fs.readFileSync(devicesFile, 'utf-8'));
+  try {
+    return JSON.parse(fs.readFileSync(devicesFile, 'utf-8'));
+  } catch (e) {
+    console.error('devices.json okunamadı veya bozuk:', e);
+    return { devices: [], cities: [], forces: [] }; // veya uygun bir boş obje
+  }
 }
 
 function writeDevices(devices) {
