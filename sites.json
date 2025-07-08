@@ -1,0 +1,44 @@
+[
+  {
+    "id": "ankara-hvkk-1",
+    "name": "Ankara-HVKK-1",
+    "cityId": "ankara",
+    "forceId": "hava_kuvvetleri",
+    "position": { "lat": 39.9334, "lng": 32.8597 }
+  },
+  {
+    "id": "ankara-hvkk-2",
+    "name": "Ankara-HVKK-2",
+    "cityId": "ankara",
+    "forceId": "hava_kuvvetleri",
+    "position": { "lat": 39.9354, "lng": 32.8585 }
+  },
+  {
+    "id": "ankara-kkk-1", 
+    "name": "Ankara-KKK-1",
+    "cityId": "ankara",
+    "forceId": "kara_kuvvetleri",
+    "position": { "lat": 39.9208, "lng": 32.8700 }
+  },
+  {
+    "id": "ankara-kkk-2", 
+    "name": "Ankara-KKK-2",
+    "cityId": "ankara",
+    "forceId": "kara_kuvvetleri",
+    "position": { "lat": 39.9208, "lng": 32.8700 }
+  },
+  {
+    "id": "corum-hvkk-1",
+    "name": "Çorum-Hvkk-1", 
+    "cityId": "corum",
+    "forceId": "hava_kuvvetleri",
+    "position": { "lat": 40.5499, "lng": 34.9537 }
+  },
+  {
+    "id": "corum-kkk-1",
+    "name": "Çorum-KKK-1",
+    "cityId": "corum", 
+    "forceId": "kara_kuvvetleri",
+    "position": { "lat": 40.5599, "lng": 34.9637 }
+  }
+] 
