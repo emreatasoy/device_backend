@@ -64,6 +64,9 @@ app.get('/devices/:serialNumber', (req, res) => {
 app.post('/devices', (req, res) => {
   const devices = readData().devices;
   const newDevice = req.body;
+  if (!newDevice.model || typeof newDevice.model !== 'string' || newDevice.model.trim() === '') {
+    return res.status(400).json({ error: 'Model alanı zorunludur ve boş olamaz.' });
+  }
   if (devices.some(d => d.serialNumber === newDevice.serialNumber)) {
     return res.status(409).json({ error: 'Bu seri numarası ile tanımlı cihaz zaten var.' });
   }
