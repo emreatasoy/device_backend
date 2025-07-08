@@ -27,6 +27,7 @@
     {
       "type": "radar",
       "serialNumber": "RAD-001",
+      "model": "Rad-m1",
       "city": "ankara",
       "force": "hava_kuvvetleri",
       "site": "Ankara-Kolordu-1",
@@ -55,6 +56,7 @@
     {
       "type": "radar",
       "serialNumber": "RAD-002",
+      "model": "Rad-m2",
       "city": "ankara",
       "force": "hava_kuvvetleri",
       "site": "Ankara-Kolordu-1",
@@ -66,6 +68,7 @@
     {
       "type": "radar",
       "serialNumber": "RAD-003",
+      "model": "Rad-m1",
       "city": "ankara",
       "force": "hava_kuvvetleri",
       "site": "Ankara-Kolordu-1",
@@ -77,6 +80,7 @@
     {
       "type": "radar",
       "serialNumber": "RAD-004",
+      "model": "Rad-m2",
       "city": "ankara",
       "force": "kara_kuvvetleri",
       "site": "Ankara-Kolordu-2",
@@ -88,6 +92,7 @@
     {
       "type": "radar",
       "serialNumber": "RAD-005",
+      "model": "Rad-m1",
       "city": "ankara",
       "force": "kara_kuvvetleri",
       "site": "Ankara-Kolordu-2",
@@ -99,6 +104,7 @@
     {
       "type": "jammer",
       "serialNumber": "JAM-001",
+      "model": "Jam-m1",
       "city": "ankara",
       "force": "hava_kuvvetleri",
       "site": "Ankara-Kolordu-1",
@@ -126,6 +132,7 @@
     {
       "type": "jammer",
       "serialNumber": "JAM-002",
+      "model": "Jam-m2",
       "city": "ankara",
       "force": "hava_kuvvetleri",
       "site": "Ankara-Kolordu-1",
@@ -136,6 +143,7 @@
     {
       "type": "jammer",
       "serialNumber": "JAM-003",
+      "model": "Jam-m1",
       "city": "ankara",
       "force": "hava_kuvvetleri",
       "site": "Ankara-Kolordu-1",
@@ -146,6 +154,7 @@
     {
       "type": "jammer",
       "serialNumber": "JAM-004",
+      "model": "Jam-m2",
       "city": "ankara",
       "force": "kara_kuvvetleri",
       "site": "Ankara-Kolordu-2",
@@ -156,6 +165,7 @@
     {
       "type": "jammer",
       "serialNumber": "JAM-005",
+      "model": "Jam-m1",
       "city": "ankara",
       "force": "kara_kuvvetleri",
       "site": "Ankara-Kolordu-2",
@@ -166,6 +176,7 @@
     {
       "type": "radar",
       "serialNumber": "RAD-006",
+      "model": "Rad-m2",
       "city": "corum",
       "force": "hava_kuvvetleri",
       "site": "Çorum-Tabur-1",
@@ -177,6 +188,7 @@
     {
       "type": "radar",
       "serialNumber": "RAD-007",
+      "model": "Rad-m1",
       "city": "corum",
       "force": "hava_kuvvetleri",
       "site": "Çorum-Tabur-1",
@@ -188,6 +200,7 @@
     {
       "type": "radar",
       "serialNumber": "RAD-008",
+      "model": "Rad-m2",
       "city": "corum",
       "force": "kara_kuvvetleri",
       "site": "Çorum-Tabur-2",
@@ -199,6 +212,7 @@
     {
       "type": "radar",
       "serialNumber": "RAD-009",
+      "model": "Rad-m1",
       "city": "corum",
       "force": "kara_kuvvetleri",
       "site": "Çorum-Tabur-2",
@@ -210,6 +224,7 @@
     {
       "type": "radar",
       "serialNumber": "RAD-010",
+      "model": "Rad-m2",
       "city": "corum",
       "force": "kara_kuvvetleri",
       "site": "Çorum-Tabur-2",
@@ -221,6 +236,7 @@
     {
       "type": "jammer",
       "serialNumber": "JAM-006",
+      "model": "Jam-m2",
       "city": "corum",
       "force": "hava_kuvvetleri",
       "site": "Çorum-Tabur-1",
@@ -231,6 +247,7 @@
     {
       "type": "jammer",
       "serialNumber": "JAM-007",
+      "model": "Jam-m1",
       "city": "corum",
       "force": "hava_kuvvetleri",
       "site": "Çorum-Tabur-1",
@@ -241,6 +258,7 @@
     {
       "type": "jammer",
       "serialNumber": "JAM-008",
+      "model": "Jam-m2",
       "city": "corum",
       "force": "kara_kuvvetleri",
       "site": "Çorum-Tabur-2",
@@ -251,6 +269,7 @@
     {
       "type": "jammer",
       "serialNumber": "JAM-009",
+      "model": "Jam-m1",
       "city": "corum",
       "force": "kara_kuvvetleri",
       "site": "Çorum-Tabur-2",
@@ -261,6 +280,7 @@
     {
       "type": "jammer",
       "serialNumber": "JAM-010",
+      "model": "Jam-m2",
       "city": "corum",
       "force": "kara_kuvvetleri",
       "site": "Çorum-Tabur-2",
