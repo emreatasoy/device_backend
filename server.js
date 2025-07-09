@@ -624,6 +624,43 @@ app.get('/device-types', (req, res) => {
   res.json(deviceTypes);
 });
 
+// İkame radar ekleme
+app.post('/devices/:serialNumber/replacement', (req, res) => {
+  const devices = readDevices();
+  const device = devices.find(d => d.serialNumber === req.params.serialNumber);
+  if (!device) {
+    return res.status(404).json({ error: 'Device not found' });
+  }
+  // Sadece radarlar için izin ver
+  if (!device.typeModelId || !device.typeModelId.startsWith('radar_')) {
+    return res.status(400).json({ error: 'Sadece radar cihazları için ikame radar eklenebilir.' });
+  }
+  const { serialNumber, endDate, relatedFaultId } = req.body;
+  if (!serialNumber || !endDate || !relatedFaultId) {
+    return res.status(400).json({ error: 'serialNumber, endDate ve relatedFaultId zorunludur.' });
+  }
+  device.replacementRadar = { serialNumber, endDate, relatedFaultId };
+  writeDevices(devices);
+  broadcastDeviceUpdate(device.serialNumber);
+  res.json(device);
+});
+
+// İkame radar kaldırma
+app.delete('/devices/:serialNumber/replacement', (req, res) => {
+  const devices = readDevices();
+  const device = devices.find(d => d.serialNumber === req.params.serialNumber);
+  if (!device) {
+    return res.status(404).json({ error: 'Device not found' });
+  }
+  if (!device.typeModelId || !device.typeModelId.startsWith('radar_')) {
+    return res.status(400).json({ error: 'Sadece radar cihazları için ikame radar kaldırılabilir.' });
+  }
+  device.replacementRadar = null;
+  writeDevices(devices);
+  broadcastDeviceUpdate(device.serialNumber);
+  res.json(device);
+});
+
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
   console.log(`📁 Dosya yönetimi arayüzü: http://localhost:${PORT}/admin`);
