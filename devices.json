@@ -1,8 +1,7 @@
 [
     {
-      "type": "radar",
+      "typeModelId": "radar_rad-m1",
       "serialNumber": "RAD-001",
-      "model": "Rad-m1",
       "city": "ankara",
       "force": "hava_kuvvetleri",
       "site": "ankara-hvkk-1",
@@ -29,21 +28,19 @@
       "slipRingEndDate": "2024-06-01T00:00:00.000Z"
     },
     {
-      "type": "radar",
+      "typeModelId": "radar_rad-m2",
       "serialNumber": "RAD-002",
-      "model": "Rad-m2",
       "city": "ankara",
       "force": "hava_kuvvetleri",
-      "site": "ankara-hvkk-2",
+      "site": "ankara-hvkk-1",
       "position": { "lat": 39.9208, "lng": 32.8541 },
       "hasFault": false,
       "faults": [],
       "slipRingEndDate": "2025-12-01T00:00:00.000Z"
     },
     {
-      "type": "radar",
+      "typeModelId": "radar_rad-m1",
       "serialNumber": "RAD-003",
-      "model": "Rad-m1",
       "city": "ankara",
       "force": "hava_kuvvetleri",
       "site": "ankara-hvkk-2",
@@ -53,9 +50,8 @@
       "slipRingEndDate": "2024-06-01T00:00:00.000Z"
     },
     {
-      "type": "radar",
+      "typeModelId": "radar_rad-m2",
       "serialNumber": "RAD-004",
-      "model": "Rad-m2",
       "city": "ankara",
       "force": "kara_kuvvetleri",
       "site": "ankara-kkk-1",
@@ -65,9 +61,8 @@
       "slipRingEndDate": "2025-12-01T00:00:00.000Z"
     },
     {
-      "type": "radar",
+      "typeModelId": "radar_rad-m1",
       "serialNumber": "RAD-005",
-      "model": "Rad-m1",
       "city": "ankara",
       "force": "kara_kuvvetleri",
       "site": "ankara-kkk-1",
@@ -77,9 +72,8 @@
       "slipRingEndDate": "2024-06-01T00:00:00.000Z"
     },
     {
-      "type": "jammer",
+      "typeModelId": "jammer_jam-m1",
       "serialNumber": "JAM-001",
-      "model": "Jam-m1",
       "city": "ankara",
       "force": "hava_kuvvetleri",
       "site": "ankara-hvkk-1",
@@ -105,9 +99,8 @@
       ]
     },
     {
-      "type": "jammer",
+      "typeModelId": "jammer_jam-m2",
       "serialNumber": "JAM-002",
-      "model": "Jam-m2",
       "city": "ankara",
       "force": "hava_kuvvetleri",
       "site": "ankara-hvkk-2",
@@ -116,9 +109,8 @@
       "faults": []
     },
     {
-      "type": "jammer",
+      "typeModelId": "jammer_jam-m1",
       "serialNumber": "JAM-003",
-      "model": "Jam-m1",
       "city": "ankara",
       "force": "hava_kuvvetleri",
       "site": "ankara-hvkk-2",
@@ -127,9 +119,8 @@
       "faults": []
     },
     {
-      "type": "jammer",
+      "typeModelId": "jammer_jam-m2",
       "serialNumber": "JAM-004",
-      "model": "Jam-m2",
       "city": "ankara",
       "force": "kara_kuvvetleri",
       "site": "ankara-kkk-2",
@@ -138,9 +129,8 @@
       "faults": []
     },
     {
-      "type": "jammer",
+      "typeModelId": "jammer_jam-m1",
       "serialNumber": "JAM-005",
-      "model": "Jam-m1",
       "city": "ankara",
       "force": "kara_kuvvetleri",
       "site": "ankara-kkk-2",
@@ -149,9 +139,8 @@
       "faults": []
     },
     {
-      "type": "radar",
+      "typeModelId": "radar_rad-m2",
       "serialNumber": "RAD-006",
-      "model": "Rad-m2",
       "city": "corum",
       "force": "hava_kuvvetleri",
       "site": "corum-hvkk-1",
@@ -161,9 +150,8 @@
       "slipRingEndDate": "2024-06-01T00:00:00.000Z"
     },
     {
-      "type": "radar",
+      "typeModelId": "radar_rad-m1",
       "serialNumber": "RAD-007",
-      "model": "Rad-m1",
       "city": "corum",
       "force": "hava_kuvvetleri",
       "site": "corum-hvkk-1",
@@ -173,9 +161,8 @@
       "slipRingEndDate": "2025-12-01T00:00:00.000Z"
     },
     {
-      "type": "radar",
+      "typeModelId": "radar_rad-m2",
       "serialNumber": "RAD-008",
-      "model": "Rad-m2",
       "city": "corum",
       "force": "kara_kuvvetleri",
       "site": "corum-kkk-1",
@@ -185,9 +172,8 @@
       "slipRingEndDate": "2024-06-01T00:00:00.000Z"
     },
     {
-      "type": "radar",
+      "typeModelId": "radar_rad-m1",
       "serialNumber": "RAD-009",
-      "model": "Rad-m1",
       "city": "corum",
       "force": "kara_kuvvetleri",
       "site": "corum-kkk-1",
@@ -197,9 +183,8 @@
       "slipRingEndDate": "2025-12-01T00:00:00.000Z"
     },
     {
-      "type": "radar",
+      "typeModelId": "radar_rad-m2",
       "serialNumber": "RAD-010",
-      "model": "Rad-m2",
       "city": "corum",
       "force": "kara_kuvvetleri",
       "site": "corum-kkk-1",
@@ -209,9 +194,8 @@
       "slipRingEndDate": "2024-06-01T00:00:00.000Z"
     },
     {
-      "type": "jammer",
+      "typeModelId": "jammer_jam-m2",
       "serialNumber": "JAM-006",
-      "model": "Jam-m2",
       "city": "corum",
       "force": "hava_kuvvetleri",
       "site": "corum-hvkk-1",
@@ -220,9 +204,8 @@
       "faults": []
     },
     {
-      "type": "jammer",
+      "typeModelId": "jammer_jam-m1",
       "serialNumber": "JAM-007",
-      "model": "Jam-m1",
       "city": "corum",
       "force": "hava_kuvvetleri",
       "site": "corum-hvkk-1",
@@ -231,9 +214,8 @@
       "faults": []
     },
     {
-      "type": "jammer",
+      "typeModelId": "jammer_jam-m2",
       "serialNumber": "JAM-008",
-      "model": "Jam-m2",
       "city": "corum",
       "force": "kara_kuvvetleri",
       "site": "corum-kkk-1",
@@ -242,9 +224,8 @@
       "faults": []
     },
     {
-      "type": "jammer",
+      "typeModelId": "jammer_jam-m1",
       "serialNumber": "JAM-009",
-      "model": "Jam-m1",
       "city": "corum",
       "force": "kara_kuvvetleri",
       "site": "corum-kkk-1",
@@ -253,9 +234,8 @@
       "faults": []
     },
     {
-      "type": "jammer",
+      "typeModelId": "jammer_jam-m2",
       "serialNumber": "JAM-010",
-      "model": "Jam-m2",
       "city": "corum",
       "force": "kara_kuvvetleri",
       "site": "corum-kkk-1",
