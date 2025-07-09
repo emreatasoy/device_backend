@@ -13,6 +13,7 @@ const devicesFile = path.join(__dirname, 'devices.json');
 const citiesFile = path.join(__dirname, 'cities.json');
 const forcesFile = path.join(__dirname, 'forces.json');
 const sitesFile = path.join(__dirname, 'sites.json');
+const deviceTypesFile = path.join(__dirname, 'device_types.json');
 
 function readDevices() {
   try {
@@ -46,6 +47,15 @@ function readSites() {
     return JSON.parse(fs.readFileSync(sitesFile, 'utf-8'));
   } catch (e) {
     console.error('sites.json okunamadı veya bozuk:', e);
+    return [];
+  }
+}
+
+function readDeviceTypes() {
+  try {
+    return JSON.parse(fs.readFileSync(deviceTypesFile, 'utf-8'));
+  } catch (e) {
+    console.error('device_types.json okunamadı veya bozuk:', e);
     return [];
   }
 }
@@ -116,26 +126,25 @@ app.get('/devices/:serialNumber', (req, res) => {
 
 app.post('/devices', (req, res) => {
   const devices = readDevices();
-  
   const newDevice = req.body;
-  
+
   // Zorunlu alanları kontrol et
-  if (!newDevice.model || typeof newDevice.model !== 'string' || newDevice.model.trim() === '') {
-    return res.status(400).json({ error: 'Model alanı zorunludur ve boş olamaz.' });
+  if (!newDevice.typeModelId || typeof newDevice.typeModelId !== 'string' || newDevice.typeModelId.trim() === '') {
+    return res.status(400).json({ error: 'typeModelId alanı zorunludur ve boş olamaz.' });
   }
-  
+
   if (!newDevice.force || typeof newDevice.force !== 'string' || newDevice.force.trim() === '') {
     return res.status(400).json({ error: 'Force alanı zorunludur ve boş olamaz.' });
   }
-  
+
   if (!newDevice.city || typeof newDevice.city !== 'string' || newDevice.city.trim() === '') {
     return res.status(400).json({ error: 'City alanı zorunludur ve boş olamaz.' });
   }
-  
+
   if (devices.some(d => d.serialNumber === newDevice.serialNumber)) {
     return res.status(409).json({ error: 'Bu seri numarası ile tanımlı cihaz zaten var.' });
   }
-  
+
   devices.push(newDevice);
   writeDevices(devices);
   broadcastDeviceUpdate(newDevice.serialNumber);
@@ -146,6 +155,12 @@ app.put('/devices/:serialNumber', (req, res) => {
   const devices = readDevices();
   const index = devices.findIndex(d => d.serialNumber === req.params.serialNumber);
   if (index !== -1) {
+    // type/model yerine typeModelId kontrolü
+    if (req.body.typeModelId !== undefined) {
+      if (!req.body.typeModelId || typeof req.body.typeModelId !== 'string' || req.body.typeModelId.trim() === '') {
+        return res.status(400).json({ error: 'typeModelId alanı zorunludur ve boş olamaz.' });
+      }
+    }
     devices[index] = { ...devices[index], ...req.body };
     writeDevices(devices);
     res.json(devices[index]);
@@ -602,6 +617,11 @@ app.get('/api/status', (req, res) => {
   } catch (e) {
     res.status(500).json({ error: 'Durum bilgisi alınamadı: ' + e.message });
   }
+});
+
+app.get('/device-types', (req, res) => {
+  const deviceTypes = readDeviceTypes();
+  res.json(deviceTypes);
 });
 
 server.listen(PORT, () => {
