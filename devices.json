@@ -25,7 +25,12 @@
           "isResolved": false
         }
       ],
-      "slipRingEndDate": "2024-06-01T00:00:00.000Z"
+      "slipRingEndDate": "2024-06-01T00:00:00.000Z",
+      "replacementRadar": {
+          "serialNumber": "IKAME-001",
+          "endDate": "2024-07-01T00:00:00.000Z",
+          "relatedFaultId": "fault_radar_1_1"
+        }
     },
     {
       "typeModelId": "radar_rad-m2",
@@ -36,7 +41,8 @@
       "position": { "lat": 39.9208, "lng": 32.8541 },
       "hasFault": false,
       "faults": [],
-      "slipRingEndDate": "2025-12-01T00:00:00.000Z"
+      "slipRingEndDate": "2025-12-01T00:00:00.000Z",
+      "replacementRadar": null
     },
     {
       "typeModelId": "radar_rad-m1",
@@ -47,7 +53,8 @@
       "position": { "lat": 39.9454, "lng": 32.8597 },
       "hasFault": false,
       "faults": [],
-      "slipRingEndDate": "2024-06-01T00:00:00.000Z"
+      "slipRingEndDate": "2024-06-01T00:00:00.000Z",
+      "replacementRadar": null
     },
     {
       "typeModelId": "radar_rad-m2",
@@ -58,7 +65,8 @@
       "position": { "lat": 39.9208, "lng": 32.8700 },
       "hasFault": false,
       "faults": [],
-      "slipRingEndDate": "2025-12-01T00:00:00.000Z"
+      "slipRingEndDate": "2025-12-01T00:00:00.000Z",
+      "replacementRadar": null
     },
     {
       "typeModelId": "radar_rad-m1",
@@ -69,7 +77,8 @@
       "position": { "lat": 39.9454, "lng": 32.8700 },
       "hasFault": false,
       "faults": [],
-      "slipRingEndDate": "2024-06-01T00:00:00.000Z"
+      "slipRingEndDate": "2024-06-01T00:00:00.000Z",
+      "replacementRadar": null
     },
     {
       "typeModelId": "jammer_jam-m1",
@@ -147,7 +156,8 @@
       "position": { "lat": 40.5499, "lng": 34.9537 },
       "hasFault": false,
       "faults": [],
-      "slipRingEndDate": "2024-06-01T00:00:00.000Z"
+      "slipRingEndDate": "2024-06-01T00:00:00.000Z",
+      "replacementRadar": null
     },
     {
       "typeModelId": "radar_rad-m1",
@@ -158,7 +168,8 @@
       "position": { "lat": 40.5400, "lng": 34.9437 },
       "hasFault": false,
       "faults": [],
-      "slipRingEndDate": "2025-12-01T00:00:00.000Z"
+      "slipRingEndDate": "2025-12-01T00:00:00.000Z",
+      "replacementRadar": null
     },
     {
       "typeModelId": "radar_rad-m2",
@@ -169,7 +180,8 @@
       "position": { "lat": 40.5599, "lng": 34.9637 },
       "hasFault": false,
       "faults": [],
-      "slipRingEndDate": "2024-06-01T00:00:00.000Z"
+      "slipRingEndDate": "2024-06-01T00:00:00.000Z",
+      "replacementRadar": null
     },
     {
       "typeModelId": "radar_rad-m1",
@@ -191,7 +203,8 @@
       "position": { "lat": 40.5599, "lng": 34.9437 },
       "hasFault": false,
       "faults": [],
-      "slipRingEndDate": "2024-06-01T00:00:00.000Z"
+      "slipRingEndDate": "2024-06-01T00:00:00.000Z",
+      "replacementRadar": null
     },
     {
       "typeModelId": "jammer_jam-m2",
