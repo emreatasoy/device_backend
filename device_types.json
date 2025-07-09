@@ -1,205 +1,22 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:latlong2/latlong.dart';
-import '../classes/device.dart';
-import '../classes/radar_device.dart';
-import '../classes/jammer_device.dart';
-import '../classes/city.dart';
-import '../classes/force.dart';
-import '../classes/site.dart';
-import '../classes/fault.dart';
-import '../classes/fault_severity.dart';
-
-class DeviceService {
-  static const String baseUrl = 'https://device-backend-xxc0.onrender.com';
-
-  static Future<List<Map<String, dynamic>>> fetchDeviceTypes() async {
-    final response = await http.get(Uri.parse('$baseUrl/device-types'));
-    if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body);
-      return data.cast<Map<String, dynamic>>();
-    } else {
-      throw Exception('Cihaz tipleri yüklenemedi: \\${response.statusCode}');
-    }
+[
+  {
+    "id": "radar_rad-m1",
+    "type": "radar",
+    "model": "Rad-m1"
+  },
+  {
+    "id": "radar_rad-m2",
+    "type": "radar",
+    "model": "Rad-m2"
+  },
+  {
+    "id": "jammer_jam-m1",
+    "type": "jammer",
+    "model": "Jam-m1"
+  },
+  {
+    "id": "jammer_jam-m2",
+    "type": "jammer",
+    "model": "Jam-m2"
   }
-
-  static Future<List<Device>> fetchDevices(List<City> allCities, List<Map<String, dynamic>> deviceTypes) async {
-    print('🔄 Sunucudan cihazlar çekiliyor... URL: $baseUrl/devices');
-    final response = await http.get(Uri.parse('$baseUrl/devices'));
-    print('📡 Sunucu yanıtı: \\${response.statusCode}');
-    
-    if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body);
-      print('✅ Sunucudan \\${data.length} cihaz çekildi');
-      print('📋 İlk cihaz: \\${data.isNotEmpty ? data.first : "yok"}');
-      
-      final devices = data.map((e) {
-        final city = allCities.firstWhere((c) => c.id == e['city'], orElse: () => allCities.first);
-        final typeModel = deviceTypes.firstWhere(
-          (dt) => dt['id'] == e['typeModelId'],
-          orElse: () => null,
-        );
-        final deviceJson = Map<String, dynamic>.from(e);
-        if (typeModel != null) {
-          deviceJson['type'] = typeModel['type'];
-          deviceJson['model'] = typeModel['model'];
-        }
-        return Device.fromJson(deviceJson, city);
-      }).toList();
-      
-      print('🔧 \\${devices.length} cihaz parse edildi');
-      return devices;
-    } else {
-      print('❌ Sunucu hatası: \\${response.statusCode} - \\${response.body}');
-      throw Exception('Failed to load devices: \\${response.statusCode}');
-    }
-  }
-
-  static List<Device> getFilteredDevices(
-    List<Device> allDevices,
-    Map<String, bool> forceFilter,
-    Map<String, bool> cityFilter,
-    Map<String, bool> deviceTypeFilter,
-  ) {
-    return allDevices.where((device) {
-      final forcePassed = forceFilter[device.force] == true;
-      final cityPassed = cityFilter[device.city.id] == true;
-      String typeKey;
-      switch (device.type) {
-        case DeviceType.radar:
-          typeKey = 'radar';
-          break;
-        case DeviceType.jammer:
-          typeKey = 'jammer';
-          break;
-        default:
-          typeKey = 'unknown';
-      }
-      final typePassed = deviceTypeFilter[typeKey] == true;
-      return forcePassed && cityPassed && typePassed;
-    }).toList();
-  }
-
-  static Future<Fault> updateFaultStatus({
-    required String deviceId,
-    required String faultId,
-    required bool isResolved,
-  }) async {
-    final url = Uri.parse('$baseUrl/devices/$deviceId/faults/$faultId');
-    final response = await http.put(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'isResolved': isResolved}),
-    );
-    if (response.statusCode == 200) {
-      return Fault.fromJson(json.decode(response.body));
-    } else {
-      throw Exception('Fault güncellenemedi: ${response.statusCode}');
-    }
-  }
-
-  static Future<Fault> addFault({
-    required String deviceId,
-    required String title,
-    required String description,
-    String severity = 'medium',
-  }) async {
-    final url = Uri.parse('$baseUrl/devices/$deviceId/faults');
-    final response = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
-        'title': title,
-        'description': description,
-        'severity': severity,
-      }),
-    );
-    if (response.statusCode == 201) {
-      return Fault.fromJson(json.decode(response.body));
-    } else {
-      throw Exception('Arıza eklenemedi: ${response.statusCode}');
-    }
-  }
-
-  static Future<void> deleteFault({
-    required String deviceId,
-    required String faultId,
-  }) async {
-    final url = Uri.parse('$baseUrl/devices/$deviceId/faults/$faultId');
-    final response = await http.delete(url);
-    if (response.statusCode != 204) {
-      throw Exception('Arıza silinemedi: ${response.statusCode}');
-    }
-  }
-
-  static Future<void> addDevice(Map<String, dynamic> deviceJson) async {
-    final url = Uri.parse('$baseUrl/devices');
-    
-  //print('KEY: "$key" (${key.codeUnits})');
-  
-    //final deviceToSend = Map<String, dynamic>.from(deviceJson);
-    
-
-  
-  print(jsonEncode(deviceJson));
-
-    //print('🟢 Sunucuya gönderilen cihaz JSON encode: ${encoded}');
-    //deviceToSend.remove('id');
-    final response = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode(deviceJson),
-    );
- //print('🟢 Sunucuya gönderilen cihaz JSON after: ${jsonEncode(deviceToSend)}');
-    if (response.statusCode == 201) {
-      return;
-    } else if (response.statusCode == 409) {
-      final error = jsonDecode(response.body)['error'] ?? 'Bu seri numarası ile cihaz zaten var.';
-      throw Exception(error);
-    } else {
-      throw Exception('Cihaz eklenemedi: ${response.statusCode}');
-    }
-  }
-
-  static Future<void> deleteDevice(String serialNumber) async {
-    final url = Uri.parse('$baseUrl/devices/$serialNumber');
-    final response = await http.delete(url);
-    if (response.statusCode == 204) {
-      return;
-    } else if (response.statusCode == 404) {
-      throw Exception('Cihaz bulunamadı.');
-    } else {
-      throw Exception('Cihaz silinemedi: ${response.statusCode}');
-    }
-  }
-
-  static Future<List<City>> fetchCities() async {
-    final response = await http.get(Uri.parse('$baseUrl/cities'));
-    if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body);
-      return data.map((e) => City.fromJson(e)).toList();
-    } else {
-      throw Exception('Şehirler yüklenemedi: \\${response.statusCode}');
-    }
-  }
-
-  static Future<List<Force>> fetchForces() async {
-    final response = await http.get(Uri.parse('$baseUrl/forces'));
-    if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body);
-      return data.map((e) => Force.fromJson(e)).toList();
-    } else {
-      throw Exception('Kuvvetler yüklenemedi: \\${response.statusCode}');
-    }
-  }
-
-  static Future<List<Site>> fetchSites() async {
-    final response = await http.get(Uri.parse('$baseUrl/sites'));
-    if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body);
-      return data.map((e) => Site.fromJson(e)).toList();
-    } else {
-      throw Exception('Siteler yüklenemedi: \\${response.statusCode}');
-    }
-  }
-} 
+] 
