@@ -76,6 +76,10 @@ function writeSites(sites) {
   fs.writeFileSync(sitesFile, JSON.stringify(sites, null, 2));
 }
 
+function writeDeviceTypes(deviceTypes) {
+  fs.writeFileSync(deviceTypesFile, JSON.stringify(deviceTypes, null, 2));
+}
+
 app.use(cors());
 app.use(express.json());
 
@@ -102,6 +106,124 @@ app.get('/', (req, res) => {
 app.get('/forces', (req, res) => {
   const forces = readForces();
   res.json(forces);
+});
+
+// Kuvvet ekleme endpoint'i
+app.post('/forces', (req, res) => {
+  try {
+    const forces = readForces();
+    const { name, cityIds } = req.body;
+    
+    if (!name || typeof name !== 'string' || name.trim() === '') {
+      return res.status(400).json({ error: 'Kuvvet adı zorunludur ve boş olamaz.' });
+    }
+
+    if (!cityIds || !Array.isArray(cityIds) || cityIds.length === 0) {
+      return res.status(400).json({ error: 'En az bir şehir seçilmelidir.' });
+    }
+
+    // Benzersiz ID oluştur (FORCE_001, FORCE_002, ...)
+    let newId;
+    let counter = 1;
+    do {
+      newId = `FORCE_${counter.toString().padStart(3, '0')}`;
+      counter++;
+    } while (forces.some(force => force.id === newId));
+
+    const newForce = {
+      id: newId,
+      name: name.trim(),
+      cityIds: cityIds
+    };
+
+    forces.push(newForce);
+    writeForces(forces);
+    
+    wss.clients.forEach(function each(client) {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify({ type: 'file_updated' }));
+      }
+    });
+
+    res.status(201).json(newForce);
+  } catch (e) {
+    res.status(500).json({ error: 'Kuvvet eklenirken hata oluştu: ' + e.message });
+  }
+});
+
+// Kuvvet güncelleme endpoint'i
+app.put('/forces/:id', (req, res) => {
+  try {
+    const forces = readForces();
+    const { name, cityIds } = req.body;
+    
+    if (!name || typeof name !== 'string' || name.trim() === '') {
+      return res.status(400).json({ error: 'Kuvvet adı zorunludur ve boş olamaz.' });
+    }
+
+    if (!cityIds || !Array.isArray(cityIds) || cityIds.length === 0) {
+      return res.status(400).json({ error: 'En az bir şehir seçilmelidir.' });
+    }
+
+    const forceIndex = forces.findIndex(force => force.id === req.params.id);
+    if (forceIndex === -1) {
+      return res.status(404).json({ error: 'Kuvvet bulunamadı.' });
+    }
+
+    forces[forceIndex].name = name.trim();
+    forces[forceIndex].cityIds = cityIds;
+    writeForces(forces);
+    
+    wss.clients.forEach(function each(client) {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify({ type: 'file_updated' }));
+      }
+    });
+
+    res.json(forces[forceIndex]);
+  } catch (e) {
+    res.status(500).json({ error: 'Kuvvet güncellenirken hata oluştu: ' + e.message });
+  }
+});
+
+// Kuvvet silme endpoint'i
+app.delete('/forces/:id', (req, res) => {
+  try {
+    const forces = readForces();
+    const devices = readDevices();
+    const forceIndex = forces.findIndex(force => force.id === req.params.id);
+    
+    if (forceIndex === -1) {
+      return res.status(404).json({ error: 'Kuvvet bulunamadı.' });
+    }
+
+    // Bu kuvveti kullanan cihazları kontrol et
+    const devicesUsingForce = devices.filter(device => device.force === req.params.id);
+    if (devicesUsingForce.length > 0) {
+      return res.status(400).json({ 
+        error: 'Bu kuvvet silinemez çünkü kullanılıyor.',
+        details: {
+          message: `Bu kuvvet ${devicesUsingForce.length} cihaz tarafından kullanılıyor. Önce bu cihazları silin veya başka bir kuvvete taşıyın.`,
+          deviceCount: devicesUsingForce.length,
+          deviceSerials: devicesUsingForce.map(d => d.serialNumber)
+        }
+      });
+    }
+
+    const deletedForce = forces[forceIndex];
+    forces.splice(forceIndex, 1);
+    writeForces(forces);
+    
+    wss.clients.forEach(function each(client) {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify({ type: 'file_updated' }));
+      }
+    });
+
+    res.status(204).send();
+  } catch (e) {
+    res.status(500).json({ error: 'Kuvvet silinirken hata oluştu: ' + e.message });
+  }
 });
 
 app.get('/sites', (req, res) => {
@@ -426,6 +548,132 @@ app.get('/cities', (req, res) => {
   res.json(cities);
 });
 
+// Şehir ekleme endpoint'i
+app.post('/cities', (req, res) => {
+  try {
+    const cities = readCities();
+    const { name, cityCenter } = req.body;
+    
+    if (!name || typeof name !== 'string' || name.trim() === '') {
+      return res.status(400).json({ error: 'Şehir adı zorunludur ve boş olamaz.' });
+    }
+
+    // Benzersiz ID oluştur (CITY_001, CITY_002, ...)
+    let newId;
+    let counter = 1;
+    do {
+      newId = `CITY_${counter.toString().padStart(3, '0')}`;
+      counter++;
+    } while (cities.some(city => city.id === newId));
+
+    const newCity = {
+      id: newId,
+      name: name.trim(),
+      cityCenter: cityCenter || { lat: 0, lng: 0 } // Varsayılan koordinatlar
+    };
+
+    cities.push(newCity);
+    writeCities(cities);
+    
+    wss.clients.forEach(function each(client) {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify({ type: 'file_updated' }));
+      }
+    });
+
+    res.status(201).json(newCity);
+  } catch (e) {
+    res.status(500).json({ error: 'Şehir eklenirken hata oluştu: ' + e.message });
+  }
+});
+
+// Şehir güncelleme endpoint'i
+app.put('/cities/:id', (req, res) => {
+  try {
+    const cities = readCities();
+    const { name, cityCenter } = req.body;
+    
+    if (!name || typeof name !== 'string' || name.trim() === '') {
+      return res.status(400).json({ error: 'Şehir adı zorunludur ve boş olamaz.' });
+    }
+
+    const cityIndex = cities.findIndex(city => city.id === req.params.id);
+    if (cityIndex === -1) {
+      return res.status(404).json({ error: 'Şehir bulunamadı.' });
+    }
+
+    cities[cityIndex].name = name.trim();
+    if (cityCenter) {
+      cities[cityIndex].cityCenter = cityCenter;
+    }
+    writeCities(cities);
+    
+    wss.clients.forEach(function each(client) {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify({ type: 'file_updated' }));
+      }
+    });
+
+    res.json(cities[cityIndex]);
+  } catch (e) {
+    res.status(500).json({ error: 'Şehir güncellenirken hata oluştu: ' + e.message });
+  }
+});
+
+// Şehir silme endpoint'i
+app.delete('/cities/:id', (req, res) => {
+  try {
+    const cities = readCities();
+    const devices = readDevices();
+    const cityIndex = cities.findIndex(city => city.id === req.params.id);
+    
+    if (cityIndex === -1) {
+      return res.status(404).json({ error: 'Şehir bulunamadı.' });
+    }
+
+    // Bu şehri kullanan cihazları kontrol et
+    const devicesUsingCity = devices.filter(device => device.city.id === req.params.id);
+    if (devicesUsingCity.length > 0) {
+      return res.status(400).json({ 
+        error: 'Bu şehir silinemez çünkü kullanılıyor.',
+        details: {
+          message: `Bu şehir ${devicesUsingCity.length} cihaz tarafından kullanılıyor. Önce bu cihazları silin veya başka bir şehre taşıyın.`,
+          deviceCount: devicesUsingCity.length,
+          deviceSerials: devicesUsingCity.map(d => d.serialNumber)
+        }
+      });
+    }
+
+    // Bu şehri kullanan kuvvetleri kontrol et
+    const forces = readForces();
+    const forcesUsingCity = forces.filter(force => force.cityIds && force.cityIds.includes(req.params.id));
+    if (forcesUsingCity.length > 0) {
+      return res.status(400).json({ 
+        error: 'Bu şehir silinemez çünkü kuvvetler tarafından kullanılıyor.',
+        details: {
+          message: `Bu şehir ${forcesUsingCity.length} kuvvet tarafından kullanılıyor. Önce bu kuvvetlerden şehri kaldırın.`,
+          forceCount: forcesUsingCity.length,
+          forceNames: forcesUsingCity.map(f => f.name)
+        }
+      });
+    }
+
+    const deletedCity = cities[cityIndex];
+    cities.splice(cityIndex, 1);
+    writeCities(cities);
+    
+    wss.clients.forEach(function each(client) {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify({ type: 'file_updated' }));
+      }
+    });
+
+    res.status(204).send();
+  } catch (e) {
+    res.status(500).json({ error: 'Şehir silinirken hata oluştu: ' + e.message });
+  }
+});
+
 // Dosya yönetimi API endpoint'leri - Cities
 app.get('/api/cities/download', (req, res) => {
   try {
@@ -622,6 +870,121 @@ app.get('/api/status', (req, res) => {
 app.get('/device-types', (req, res) => {
   const deviceTypes = readDeviceTypes();
   res.json(deviceTypes);
+});
+
+app.post('/device-types', (req, res) => {
+  try {
+    const deviceTypes = readDeviceTypes();
+    const { model, type } = req.body;
+    
+    if (!model || typeof model !== 'string' || model.trim() === '') {
+      return res.status(400).json({ error: 'Model adı zorunludur ve boş olamaz.' });
+    }
+
+    if (!type || !['radar', 'jammer'].includes(type)) {
+      return res.status(400).json({ error: 'Tip radar veya jammer olmalıdır.' });
+    }
+
+    // Benzersiz ID oluştur (TYPE_001, TYPE_002, ...)
+    let newId;
+    let counter = 1;
+    do {
+      newId = `TYPE_${counter.toString().padStart(3, '0')}`;
+      counter++;
+    } while (deviceTypes.some(dt => dt.id === newId));
+
+    const newDeviceType = {
+      id: newId,
+      model: model.trim(),
+      type: type
+    };
+
+    deviceTypes.push(newDeviceType);
+    writeDeviceTypes(deviceTypes);
+    
+    wss.clients.forEach(function each(client) {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify({ type: 'file_updated' }));
+      }
+    });
+
+    res.status(201).json(newDeviceType);
+  } catch (e) {
+    res.status(500).json({ error: 'Cihaz tipi eklenirken hata oluştu: ' + e.message });
+  }
+});
+
+app.put('/device-types/:id', (req, res) => {
+  try {
+    const deviceTypes = readDeviceTypes();
+    const { model, type } = req.body;
+    const deviceType = deviceTypes.find(dt => dt.id === req.params.id);
+    
+    if (!deviceType) {
+      return res.status(404).json({ error: 'Cihaz tipi bulunamadı.' });
+    }
+
+    if (!model || typeof model !== 'string' || model.trim() === '') {
+      return res.status(400).json({ error: 'Model adı zorunludur ve boş olamaz.' });
+    }
+
+    if (!type || !['radar', 'jammer'].includes(type)) {
+      return res.status(400).json({ error: 'Tip radar veya jammer olmalıdır.' });
+    }
+
+    deviceType.model = model.trim();
+    deviceType.type = type;
+    
+    writeDeviceTypes(deviceTypes);
+    
+    wss.clients.forEach(function each(client) {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify({ type: 'file_updated' }));
+      }
+    });
+
+    res.json(deviceType);
+  } catch (e) {
+    res.status(500).json({ error: 'Cihaz tipi güncellenirken hata oluştu: ' + e.message });
+  }
+});
+
+app.delete('/device-types/:id', (req, res) => {
+  try {
+    const deviceTypes = readDeviceTypes();
+    const devices = readDevices();
+    const deviceTypeIndex = deviceTypes.findIndex(dt => dt.id === req.params.id);
+    
+    if (deviceTypeIndex === -1) {
+      return res.status(404).json({ error: 'Cihaz tipi bulunamadı.' });
+    }
+
+    // Bu cihaz tipini kullanan cihazları kontrol et
+    const devicesUsingType = devices.filter(device => device.typeModelId === req.params.id);
+    if (devicesUsingType.length > 0) {
+      return res.status(400).json({ 
+        error: 'Bu cihaz tipi silinemez çünkü kullanılıyor.',
+        details: {
+          message: `Bu cihaz tipi ${devicesUsingType.length} cihaz tarafından kullanılıyor. Önce bu cihazları silin veya başka bir cihaz tipine taşıyın.`,
+          deviceCount: devicesUsingType.length,
+          deviceSerials: devicesUsingType.map(d => d.serialNumber)
+        }
+      });
+    }
+
+    deviceTypes.splice(deviceTypeIndex, 1);
+    writeDeviceTypes(deviceTypes);
+    
+    wss.clients.forEach(function each(client) {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify({ type: 'file_updated' }));
+      }
+    });
+
+    res.status(204).send();
+  } catch (e) {
+    res.status(500).json({ error: 'Cihaz tipi silinirken hata oluştu: ' + e.message });
+  }
 });
 
 // İkame radar ekleme
