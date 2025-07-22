@@ -231,6 +231,122 @@ app.get('/sites', (req, res) => {
   res.json(sites);
 });
 
+// Sites CRUD Operations
+app.post('/sites', (req, res) => {
+  try {
+    const sites = readSites();
+    const newSite = req.body;
+
+    // Zorunlu alanları kontrol et
+    if (!newSite.name || typeof newSite.name !== 'string' || newSite.name.trim() === '') {
+      return res.status(400).json({ error: 'Name alanı zorunludur ve boş olamaz.' });
+    }
+
+    if (!newSite.cityId || typeof newSite.cityId !== 'string' || newSite.cityId.trim() === '') {
+      return res.status(400).json({ error: 'CityId alanı zorunludur ve boş olamaz.' });
+    }
+
+    if (!newSite.forceId || typeof newSite.forceId !== 'string' || newSite.forceId.trim() === '') {
+      return res.status(400).json({ error: 'ForceId alanı zorunludur ve boş olamaz.' });
+    }
+
+    if (!newSite.position || !newSite.position.lat || !newSite.position.lng) {
+      return res.status(400).json({ error: 'Position alanı zorunludur ve lat/lng değerleri gerekli.' });
+    }
+
+    // ID oluştur
+    const newId = `site_${Date.now()}`;
+    newSite.id = newId;
+
+    sites.push(newSite);
+    writeSites(sites);
+    
+    // WebSocket ile güncelleme gönder
+    wss.clients.forEach(function each(client) {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify({ type: 'file_updated' }));
+      }
+    });
+
+    res.status(201).json(newSite);
+  } catch (e) {
+    console.error('Site eklenirken hata oluştu:', e);
+    res.status(500).json({ error: 'Site eklenirken hata oluştu: ' + e.message });
+  }
+});
+
+app.put('/sites/:id', (req, res) => {
+  try {
+    const sites = readSites();
+    const index = sites.findIndex(s => s.id === req.params.id);
+    
+    if (index !== -1) {
+      const updatedSite = { ...sites[index], ...req.body };
+      
+      // Zorunlu alanları kontrol et
+      if (!updatedSite.name || typeof updatedSite.name !== 'string' || updatedSite.name.trim() === '') {
+        return res.status(400).json({ error: 'Name alanı zorunludur ve boş olamaz.' });
+      }
+
+      if (!updatedSite.cityId || typeof updatedSite.cityId !== 'string' || updatedSite.cityId.trim() === '') {
+        return res.status(400).json({ error: 'CityId alanı zorunludur ve boş olamaz.' });
+      }
+
+      if (!updatedSite.forceId || typeof updatedSite.forceId !== 'string' || updatedSite.forceId.trim() === '') {
+        return res.status(400).json({ error: 'ForceId alanı zorunludur ve boş olamaz.' });
+      }
+
+      if (!updatedSite.position || !updatedSite.position.lat || !updatedSite.position.lng) {
+        return res.status(400).json({ error: 'Position alanı zorunludur ve lat/lng değerleri gerekli.' });
+      }
+
+      sites[index] = updatedSite;
+      writeSites(sites);
+      
+      // WebSocket ile güncelleme gönder
+      wss.clients.forEach(function each(client) {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(JSON.stringify({ type: 'file_updated' }));
+        }
+      });
+
+      res.json(updatedSite);
+    } else {
+      res.status(404).json({ error: 'Site bulunamadı' });
+    }
+  } catch (e) {
+    console.error('Site güncellenirken hata oluştu:', e);
+    res.status(500).json({ error: 'Site güncellenirken hata oluştu: ' + e.message });
+  }
+});
+
+app.delete('/sites/:id', (req, res) => {
+  try {
+    const sites = readSites();
+    const index = sites.findIndex(s => s.id === req.params.id);
+    
+    if (index !== -1) {
+      const deletedSite = sites[index];
+      sites.splice(index, 1);
+      writeSites(sites);
+      
+      // WebSocket ile güncelleme gönder
+      wss.clients.forEach(function each(client) {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(JSON.stringify({ type: 'file_updated' }));
+        }
+      });
+
+      res.status(204).send();
+    } else {
+      res.status(404).json({ error: 'Site bulunamadı' });
+    }
+  } catch (e) {
+    console.error('Site silinirken hata oluştu:', e);
+    res.status(500).json({ error: 'Site silinirken hata oluştu: ' + e.message });
+  }
+});
+
 app.get('/devices', (req, res) => {
   const devices = readDevices();
   res.json(devices);
