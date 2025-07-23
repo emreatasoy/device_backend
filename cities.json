@@ -2,11 +2,25 @@
   {
     "id": "ankara",
     "name": "Ankara",
-    "cityCenter": { "lat": 39.9334, "lng": 32.8597 }
+    "cityCenter": {
+      "lat": 39.9334,
+      "lng": 32.8597
+    }
   },
   {
     "id": "corum",
     "name": "Çorum",
-    "cityCenter": { "lat": 40.5499, "lng": 34.9537 }
+    "cityCenter": {
+      "lat": 40.5499,
+      "lng": 34.9537
+    }
+  },
+  {
+    "id": "CITY_001",
+    "name": "İstanbul",
+    "cityCenter": {
+      "lat": 41.1274,
+      "lng": 28.4871
+    }
   }
-] 
+]
