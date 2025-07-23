@@ -15,9 +15,17 @@ const forcesFile = path.join(__dirname, 'forces.json');
 const sitesFile = path.join(__dirname, 'sites.json');
 const deviceTypesFile = path.join(__dirname, 'device_types.json');
 
+// Dosya yollarını logla
+console.log('📁 Dosya yolları:');
+console.log('   - Devices:', devicesFile);
+console.log('   - Cities:', citiesFile);
+console.log('   - Forces:', forcesFile);
+console.log('   - Sites:', sitesFile);
+console.log('   - DeviceTypes:', deviceTypesFile);
+
 function readDevices() {
   try {
-    return JSON.parse(fs.readFileSync(devicesFile, 'utf-8'));
+  return JSON.parse(fs.readFileSync(devicesFile, 'utf-8'));
   } catch (e) {
     console.error('devices.json okunamadı veya bozuk:', e);
     return [];
@@ -26,27 +34,50 @@ function readDevices() {
 
 function readCities() {
   try {
-    return JSON.parse(fs.readFileSync(citiesFile, 'utf-8'));
+    console.log('📖 Cities dosyası okunuyor:', citiesFile);
+    
+    // Dosya var mı kontrol et
+    if (!fs.existsSync(citiesFile)) {
+      console.log('⚠️ Cities dosyası bulunamadı, boş array döndürülüyor');
+      return [];
+    }
+    
+    const data = JSON.parse(fs.readFileSync(citiesFile, 'utf-8'));
+    console.log('✅ Cities dosyası okundu, veri sayısı:', data.length);
+    return data;
   } catch (e) {
-    console.error('cities.json okunamadı veya bozuk:', e);
+    console.error('❌ cities.json okunamadı veya bozuk:', e);
     return [];
   }
 }
 
 function readForces() {
   try {
-    return JSON.parse(fs.readFileSync(forcesFile, 'utf-8'));
+    console.log('📖 Forces dosyası okunuyor:', forcesFile);
+    
+    // Dosya var mı kontrol et
+    if (!fs.existsSync(forcesFile)) {
+      console.log('⚠️ Forces dosyası bulunamadı, boş array döndürülüyor');
+      return [];
+    }
+    
+    const data = JSON.parse(fs.readFileSync(forcesFile, 'utf-8'));
+    console.log('✅ Forces dosyası okundu, veri sayısı:', data.length);
+    return data;
   } catch (e) {
-    console.error('forces.json okunamadı veya bozuk:', e);
+    console.error('❌ forces.json okunamadı veya bozuk:', e);
     return [];
   }
 }
 
 function readSites() {
   try {
-    return JSON.parse(fs.readFileSync(sitesFile, 'utf-8'));
+    console.log('📖 Sites dosyası okunuyor:', sitesFile);
+    const data = JSON.parse(fs.readFileSync(sitesFile, 'utf-8'));
+    console.log('✅ Sites dosyası okundu, veri sayısı:', data.length);
+    return data;
   } catch (e) {
-    console.error('sites.json okunamadı veya bozuk:', e);
+    console.error('❌ sites.json okunamadı veya bozuk:', e);
     return [];
   }
 }
@@ -65,15 +96,67 @@ function writeDevices(devices) {
 }
 
 function writeCities(cities) {
-  fs.writeFileSync(citiesFile, JSON.stringify(cities, null, 2));
+  try {
+    console.log('💾 Cities dosyası yazılıyor:', citiesFile);
+    console.log('📝 Yazılacak veri:', JSON.stringify(cities, null, 2));
+    
+    // Dosya yazma izinlerini kontrol et
+    const dir = path.dirname(citiesFile);
+    if (!fs.existsSync(dir)) {
+      console.log('📁 Dizin oluşturuluyor:', dir);
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    
+    fs.writeFileSync(citiesFile, JSON.stringify(cities, null, 2));
+    console.log('✅ Cities dosyası başarıyla yazıldı');
+    
+    // Dosyanın gerçekten yazıldığını kontrol et
+    if (fs.existsSync(citiesFile)) {
+      const stats = fs.statSync(citiesFile);
+      console.log('📊 Dosya boyutu:', stats.size, 'bytes');
+    }
+  } catch (e) {
+    console.error('❌ Cities dosyası yazma hatası:', e);
+    throw e;
+  }
 }
 
 function writeForces(forces) {
-  fs.writeFileSync(forcesFile, JSON.stringify(forces, null, 2));
+  try {
+    console.log('💾 Forces dosyası yazılıyor:', forcesFile);
+    console.log('📝 Yazılacak veri:', JSON.stringify(forces, null, 2));
+    
+    // Dosya yazma izinlerini kontrol et
+    const dir = path.dirname(forcesFile);
+    if (!fs.existsSync(dir)) {
+      console.log('📁 Dizin oluşturuluyor:', dir);
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    
+    fs.writeFileSync(forcesFile, JSON.stringify(forces, null, 2));
+    console.log('✅ Forces dosyası başarıyla yazıldı');
+    
+    // Dosyanın gerçekten yazıldığını kontrol et
+    if (fs.existsSync(forcesFile)) {
+      const stats = fs.statSync(forcesFile);
+      console.log('📊 Dosya boyutu:', stats.size, 'bytes');
+    }
+  } catch (e) {
+    console.error('❌ Forces dosyası yazma hatası:', e);
+    throw e;
+  }
 }
 
 function writeSites(sites) {
-  fs.writeFileSync(sitesFile, JSON.stringify(sites, null, 2));
+  try {
+    console.log('💾 Sites dosyası yazılıyor:', sitesFile);
+    console.log('📝 Yazılacak veri:', JSON.stringify(sites, null, 2));
+    fs.writeFileSync(sitesFile, JSON.stringify(sites, null, 2));
+    console.log('✅ Sites dosyası başarıyla yazıldı');
+  } catch (e) {
+    console.error('❌ Sites dosyası yazma hatası:', e);
+    throw e;
+  }
 }
 
 function writeDeviceTypes(deviceTypes) {
@@ -189,17 +272,27 @@ app.put('/forces/:id', (req, res) => {
 // Kuvvet silme endpoint'i
 app.delete('/forces/:id', (req, res) => {
   try {
+    console.log('🗑️ Force silme isteği alındı:', req.params.id);
     const forces = readForces();
     const devices = readDevices();
     const forceIndex = forces.findIndex(force => force.id === req.params.id);
     
+    console.log('📊 Mevcut force sayısı:', forces.length);
+    console.log('📊 Mevcut device sayısı:', devices.length);
+    
     if (forceIndex === -1) {
+      console.log('❌ Force bulunamadı:', req.params.id);
       return res.status(404).json({ error: 'Kuvvet bulunamadı.' });
     }
 
+    console.log('✅ Force bulundu:', forces[forceIndex].name);
+
     // Bu kuvveti kullanan cihazları kontrol et
     const devicesUsingForce = devices.filter(device => device.force === req.params.id);
+    console.log('🔍 Bu force\'u kullanan device sayısı:', devicesUsingForce.length);
+    
     if (devicesUsingForce.length > 0) {
+      console.log('❌ Force silinemez, kullanılıyor');
       return res.status(400).json({ 
         error: 'Bu kuvvet silinemez çünkü kullanılıyor.',
         details: {
@@ -211,8 +304,12 @@ app.delete('/forces/:id', (req, res) => {
     }
 
     const deletedForce = forces[forceIndex];
+    console.log('🗑️ Force siliniyor:', deletedForce.name);
     forces.splice(forceIndex, 1);
     writeForces(forces);
+    
+    console.log('✅ Force başarıyla silindi');
+    console.log('📊 Yeni force sayısı:', forces.length);
     
     wss.clients.forEach(function each(client) {
       if (client.readyState === WebSocket.OPEN) {
@@ -222,6 +319,7 @@ app.delete('/forces/:id', (req, res) => {
 
     res.status(204).send();
   } catch (e) {
+    console.error('❌ Force silme hatası:', e);
     res.status(500).json({ error: 'Kuvvet silinirken hata oluştu: ' + e.message });
   }
 });
@@ -262,9 +360,14 @@ app.post('/sites', (req, res) => {
     writeSites(sites);
     
     // WebSocket ile güncelleme gönder
+    console.log('🔔 WebSocket event gönderiliyor: file_updated');
+    console.log('📡 Bağlı client sayısı:', wss.clients.size);
     wss.clients.forEach(function each(client) {
       if (client.readyState === WebSocket.OPEN) {
+        console.log('✅ Client\'a event gönderiliyor');
         client.send(JSON.stringify({ type: 'file_updated' }));
+      } else {
+        console.log('❌ Client bağlı değil, state:', client.readyState);
       }
     });
 
@@ -363,29 +466,51 @@ app.get('/devices/:serialNumber', (req, res) => {
 });
 
 app.post('/devices', (req, res) => {
+  console.log('📥 Cihaz ekleme isteği alındı');
+  console.log('📦 Gelen veri:', JSON.stringify(req.body, null, 2));
+  
   const devices = readDevices();
   const newDevice = req.body;
 
   // Zorunlu alanları kontrol et
+  console.log('🔍 Validasyon kontrolleri başlıyor...');
+  
   if (!newDevice.typeModelId || typeof newDevice.typeModelId !== 'string' || newDevice.typeModelId.trim() === '') {
+    console.log('❌ typeModelId hatası:', newDevice.typeModelId);
     return res.status(400).json({ error: 'typeModelId alanı zorunludur ve boş olamaz.' });
   }
 
   if (!newDevice.force || typeof newDevice.force !== 'string' || newDevice.force.trim() === '') {
+    console.log('❌ force hatası:', newDevice.force);
     return res.status(400).json({ error: 'Force alanı zorunludur ve boş olamaz.' });
   }
 
   if (!newDevice.city || typeof newDevice.city !== 'string' || newDevice.city.trim() === '') {
+    console.log('❌ city hatası:', newDevice.city);
     return res.status(400).json({ error: 'City alanı zorunludur ve boş olamaz.' });
   }
 
   if (devices.some(d => d.serialNumber === newDevice.serialNumber)) {
+    console.log('❌ Seri numarası zaten var:', newDevice.serialNumber);
     return res.status(409).json({ error: 'Bu seri numarası ile tanımlı cihaz zaten var.' });
   }
 
+  console.log('✅ Validasyon kontrolleri geçildi');
+  console.log('💾 Cihaz ekleniyor...');
+  
   devices.push(newDevice);
   writeDevices(devices);
   broadcastDeviceUpdate(newDevice.serialNumber);
+  
+  // Filtrelerin güncellenmesi için file_updated event'i gönder
+  console.log('🔔 Cihaz eklendi, file_updated event gönderiliyor');
+  wss.clients.forEach(function each(client) {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(JSON.stringify({ type: 'file_updated' }));
+    }
+  });
+  
+  console.log('✅ Cihaz başarıyla eklendi:', newDevice.serialNumber);
   res.status(201).json(newDevice);
 });
 
@@ -401,6 +526,14 @@ app.put('/devices/:serialNumber', (req, res) => {
     }
     devices[index] = { ...devices[index], ...req.body };
     writeDevices(devices);
+    
+    // Filtrelerin güncellenmesi için file_updated event'i gönder
+    wss.clients.forEach(function each(client) {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify({ type: 'file_updated' }));
+      }
+    });
+    
     res.json(devices[index]);
   } else {
     res.status(404).json({ error: 'Device not found' });
@@ -415,6 +548,14 @@ app.delete('/devices/:serialNumber', (req, res) => {
     devices.splice(index, 1);
     writeDevices(devices);
     broadcastDeviceUpdate(deletedDevice.serialNumber);
+    
+    // Filtrelerin güncellenmesi için file_updated event'i gönder
+    wss.clients.forEach(function each(client) {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify({ type: 'file_updated' }));
+      }
+    });
+    
     res.status(204).send();
   } else {
     res.status(404).json({ error: 'Device not found' });
@@ -435,6 +576,14 @@ app.post('/devices/:serialNumber/faults', (req, res) => {
     device.faults.push(newFault);
     device.hasFault = true;
     writeDevices(devices);
+    
+    // Filtrelerin güncellenmesi için file_updated event'i gönder
+    wss.clients.forEach(function each(client) {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify({ type: 'file_updated' }));
+      }
+    });
+    
     res.status(201).json(newFault);
     broadcastDeviceUpdate(device.serialNumber);
   } else {
@@ -451,6 +600,14 @@ app.put('/devices/:serialNumber/faults/:faultId', (req, res) => {
       Object.assign(fault, req.body);
       device.hasFault = device.faults.some(f => !f.isResolved);
       writeDevices(devices);
+      
+      // Filtrelerin güncellenmesi için file_updated event'i gönder
+      wss.clients.forEach(function each(client) {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(JSON.stringify({ type: 'file_updated' }));
+        }
+      });
+      
       res.json(fault);
       broadcastDeviceUpdate(device.serialNumber);
     } else {
