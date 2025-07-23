@@ -9,6 +9,49 @@ const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 const PORT = process.env.PORT || 3000;
 
+// Koşullu logging utility
+const isDevelopment = process.env.NODE_ENV !== 'production';
+const logger = {
+  info: (message, ...args) => {
+    if (isDevelopment) {
+      console.log(`ℹ️ ${message}`, ...args);
+    }
+  },
+  success: (message, ...args) => {
+    if (isDevelopment) {
+      console.log(`✅ ${message}`, ...args);
+    }
+  },
+  warning: (message, ...args) => {
+    if (isDevelopment) {
+      console.log(`⚠️ ${message}`, ...args);
+    }
+  },
+  error: (message, ...args) => {
+    console.log(`❌ ${message}`, ...args); // Hatalar her zaman loglanır
+  },
+  debug: (message, ...args) => {
+    if (isDevelopment) {
+      console.log(`🐛 ${message}`, ...args);
+    }
+  },
+  websocket: (message, ...args) => {
+    if (isDevelopment) {
+      console.log(`🔌 ${message}`, ...args);
+    }
+  },
+  api: (message, ...args) => {
+    if (isDevelopment) {
+      console.log(`🌐 ${message}`, ...args);
+    }
+  },
+  file: (message, ...args) => {
+    if (isDevelopment) {
+      console.log(`📁 ${message}`, ...args);
+    }
+  }
+};
+
 const devicesFile = path.join(__dirname, 'devices.json');
 const citiesFile = path.join(__dirname, 'cities.json');
 const forcesFile = path.join(__dirname, 'forces.json');
@@ -16,12 +59,12 @@ const sitesFile = path.join(__dirname, 'sites.json');
 const deviceTypesFile = path.join(__dirname, 'device_types.json');
 
 // Dosya yollarını logla
-console.log('📁 Dosya yolları:');
-console.log('   - Devices:', devicesFile);
-console.log('   - Cities:', citiesFile);
-console.log('   - Forces:', forcesFile);
-console.log('   - Sites:', sitesFile);
-console.log('   - DeviceTypes:', deviceTypesFile);
+logger.file('Dosya yolları:');
+logger.file('   - Devices:', devicesFile);
+logger.file('   - Cities:', citiesFile);
+logger.file('   - Forces:', forcesFile);
+logger.file('   - Sites:', sitesFile);
+logger.file('   - DeviceTypes:', deviceTypesFile);
 
 function readDevices() {
   try {
@@ -34,19 +77,19 @@ function readDevices() {
 
 function readCities() {
   try {
-    console.log('📖 Cities dosyası okunuyor:', citiesFile);
+    logger.file('Cities dosyası okunuyor:', citiesFile);
     
     // Dosya var mı kontrol et
     if (!fs.existsSync(citiesFile)) {
-      console.log('⚠️ Cities dosyası bulunamadı, boş array döndürülüyor');
+      logger.warning('Cities dosyası bulunamadı, boş array döndürülüyor');
       return [];
     }
     
     const data = JSON.parse(fs.readFileSync(citiesFile, 'utf-8'));
-    console.log('✅ Cities dosyası okundu, veri sayısı:', data.length);
+    logger.success('Cities dosyası okundu, veri sayısı:', data.length);
     return data;
   } catch (e) {
-    console.error('❌ cities.json okunamadı veya bozuk:', e);
+    logger.error('cities.json okunamadı veya bozuk:', e);
     return [];
   }
 }
@@ -168,7 +211,7 @@ app.use(express.json());
 
 // WebSocket bağlantılarını saklas
 wss.on('connection', function connection(ws) {
-  console.log('Bir istemci WebSocket ile bağlandı');
+  logger.websocket('Bir istemci WebSocket ile bağlandı');
 });
 
 // Bir cihaz güncellendiğinde sadece o cihazın id'sini yayınla
@@ -466,8 +509,8 @@ app.get('/devices/:serialNumber', (req, res) => {
 });
 
 app.post('/devices', (req, res) => {
-  console.log('📥 Cihaz ekleme isteği alındı');
-  console.log('📦 Gelen veri:', JSON.stringify(req.body, null, 2));
+  logger.api('Cihaz ekleme isteği alındı');
+  logger.debug('Gelen veri:', JSON.stringify(req.body, null, 2));
   
   const devices = readDevices();
   const newDevice = req.body;
@@ -1298,6 +1341,6 @@ app.delete('/devices/:serialNumber/replacement', (req, res) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-  console.log(`📁 Dosya yönetimi arayüzü: http://localhost:${PORT}/admin`);
+  logger.success(`Server is running on port ${PORT}`);
+  logger.info(`Dosya yönetimi arayüzü: http://localhost:${PORT}/admin`);
 }); 
