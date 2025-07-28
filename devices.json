@@ -29,7 +29,8 @@
       "replacementDevice": {
           "serialNumber": "IKAME-001",
           "endDate": "2024-07-01T00:00:00.000Z",
-          "relatedFaultId": "fault_radar_1_1"
+          "relatedFaultId": "fault_radar_1_1",
+          "replacementDate": "2024-06-01T00:00:00.000Z"
         }
     },
     {
