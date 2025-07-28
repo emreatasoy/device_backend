@@ -1197,8 +1197,8 @@ app.post('/device-types', (req, res) => {
       return res.status(400).json({ error: 'Model adı zorunludur ve boş olamaz.' });
     }
 
-    if (!type || !['radar', 'jammer'].includes(type)) {
-      return res.status(400).json({ error: 'Tip radar veya jammer olmalıdır.' });
+    if (!type || !['radar', 'jammer', 'drone', 'platform'].includes(type)) {
+      return res.status(400).json({ error: 'Tip radar, jammer, drone veya platform olmalıdır.' });
     }
 
     // Benzersiz ID oluştur (TYPE_001, TYPE_002, ...)
@@ -1244,8 +1244,8 @@ app.put('/device-types/:id', (req, res) => {
       return res.status(400).json({ error: 'Model adı zorunludur ve boş olamaz.' });
     }
 
-    if (!type || !['radar', 'jammer'].includes(type)) {
-      return res.status(400).json({ error: 'Tip radar veya jammer olmalıdır.' });
+    if (!type || !['radar', 'jammer', 'drone', 'platform'].includes(type)) {
+      return res.status(400).json({ error: 'Tip radar, jammer, drone veya platform olmalıdır.' });
     }
 
     deviceType.model = model.trim();
@@ -1303,38 +1303,31 @@ app.delete('/device-types/:id', (req, res) => {
   }
 });
 
-// İkame radar ekleme
+// İkame cihaz ekleme
 app.post('/devices/:serialNumber/replacement', (req, res) => {
   const devices = readDevices();
   const device = devices.find(d => d.serialNumber === req.params.serialNumber);
   if (!device) {
     return res.status(404).json({ error: 'Device not found' });
   }
-  // Sadece radarlar için izin ver
-  if (!device.typeModelId || !device.typeModelId.startsWith('radar_')) {
-    return res.status(400).json({ error: 'Sadece radar cihazları için ikame radar eklenebilir.' });
-  }
   const { serialNumber, endDate, relatedFaultId } = req.body;
   if (!serialNumber || !endDate || !relatedFaultId) {
     return res.status(400).json({ error: 'serialNumber, endDate ve relatedFaultId zorunludur.' });
   }
-  device.replacementRadar = { serialNumber, endDate, relatedFaultId };
+  device.replacementDevice = { serialNumber, endDate, relatedFaultId };
   writeDevices(devices);
   broadcastDeviceUpdate(device.serialNumber);
   res.json(device);
 });
 
-// İkame radar kaldırma
+// İkame cihaz kaldırma
 app.delete('/devices/:serialNumber/replacement', (req, res) => {
   const devices = readDevices();
   const device = devices.find(d => d.serialNumber === req.params.serialNumber);
   if (!device) {
     return res.status(404).json({ error: 'Device not found' });
   }
-  if (!device.typeModelId || !device.typeModelId.startsWith('radar_')) {
-    return res.status(400).json({ error: 'Sadece radar cihazları için ikame radar kaldırılabilir.' });
-  }
-  device.replacementRadar = null;
+  device.replacementDevice = null;
   writeDevices(devices);
   broadcastDeviceUpdate(device.serialNumber);
   res.json(device);
