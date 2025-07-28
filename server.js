@@ -1310,11 +1310,16 @@ app.post('/devices/:serialNumber/replacement', (req, res) => {
   if (!device) {
     return res.status(404).json({ error: 'Device not found' });
   }
-  const { serialNumber, endDate, relatedFaultId } = req.body;
+  const { serialNumber, endDate, relatedFaultId, replacementDate } = req.body;
   if (!serialNumber || !endDate || !relatedFaultId) {
     return res.status(400).json({ error: 'serialNumber, endDate ve relatedFaultId zorunludur.' });
   }
-  device.replacementDevice = { serialNumber, endDate, relatedFaultId };
+  device.replacementDevice = { 
+    serialNumber, 
+    endDate, 
+    relatedFaultId, 
+    replacementDate: replacementDate || new Date().toISOString() 
+  };
   writeDevices(devices);
   broadcastDeviceUpdate(device.serialNumber);
   res.json(device);
